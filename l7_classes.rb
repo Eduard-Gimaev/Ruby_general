@@ -20,9 +20,10 @@ end
 
 
 class Train
-    def initialize
-        @train_num = 012345
-        @train_type = cargo
+    def initialize(train_num, train_type, train_wagons)
+        @train_num = train_num
+        @train_type = train_type
+        @train_wagons =train_wagons
     end
 
 
