@@ -21,8 +21,8 @@
 + Может возвращать количество вагонов
 + Может прицеплять/отцеплять вагоны (по одному вагону за операцию, метод просто увеличивает или уменьшает количество вагонов). 
 + Прицепка/отцепка      вагонов может осуществляться только если поезд не движется.
-  Может принимать маршрут следования (объект класса Route). 
-  При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте.
++ Может принимать маршрут следования (объект класса Route). 
++ При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте.
   Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
   Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
@@ -76,7 +76,7 @@ class Route
         @route.delete(station)
       end
     def show_route
-        @route.each {|station| print "this route has following stations: #{station}, "} 
+        print "this route has following stations: #{@route}"
     end
 end
 
@@ -85,6 +85,8 @@ class Train
     attr_accessor :train_type
     attr_accessor :wagons
     attr_accessor :speed
+    attr_accessor :current_station
+
 
     def initialize(train_number, train_type)
         @train_number = train_number
@@ -92,6 +94,7 @@ class Train
         @wagons = 0
         @speed = 0
         @routes = []
+        @current_station = 0
     end
     def go
         self.speed = 10
@@ -129,6 +132,9 @@ class Train
     
     def set_route(route)
         @routes << route
+        @current_station = route.route[0] #if route.routes.include?(self)
+        puts "#{@current_station}"
+
     end
     def show_route
         @routes.each {|station| puts station.route}
@@ -146,3 +152,23 @@ class Train
         puts "At the moment our train is located at #{@current_station} station"
     end
 end
+
+station1 = Station.new('Ufa')
+station2 = Station.new('Moscow')
+station3 = Station.new('Krasnodar')
+station4 = Station.new('Volgograd')
+station5 = Station.new('Samara')
+station6 = Station.new('Vladimir')
+station7 = Station.new('Kazan')
+station8 = Station.new('Sochi')
+
+train1 = Train.new("0001", "cargo")
+train2 = Train.new("0002", "passanger")
+
+route1 = Route.new("Ufa", "Moscow") #via Kazan, Vladimir
+route2 = Route.new("Moscow", "Ufa") #via Vladimir, Kazan
+route3 = Route.new("Ufa", "Sochi") #via Samara, Volgograd, Krasnodar
+route4 = Route.new("Sochi", "Ufa") #via Krasnodar, Volgograd, Samara
+
+
+
