@@ -1,29 +1,169 @@
 =begin
+    Класс Station (Станция):
++Имеет название, которое указывается при ее создании
++Может принимать поезда (по одному за раз)
++Может возвращать список всех поездов на станции, находящиеся в текущий момент
++Может возвращать список поездов на станции по типу (см. ниже): кол-во грузовых, пассажирских
++Может отправлять поезда (по одному за раз, при этом, поезд удаляется из списка поездов, находящихся на станции).
+
+Класс Route (Маршрут):
++ Имеет начальную и конечную станцию, а также список промежуточных станций. 
++ Начальная и конечная станции указываютсся при создании маршрута, а промежуточные могут добавляться между ними.
++ Может добавлять промежуточную станцию в список
++ Может удалять промежуточную станцию из списка
++ Может выводить список всех станций по-порядку от начальной до конечной
+
+Класс Train (Поезд):
++Имеет номер (произвольная строка) и тип (грузовой, пассажирский) и количество вагонов, эти данные указываются при создании экземпляра класса
++Может набирать скорость
++Может возвращать текущую скорость
++Может тормозить (сбрасывать скорость до нуля)
++Может возвращать количество вагонов
++Может прицеплять/отцеплять вагоны (по одному вагону за операцию, метод просто увеличивает или уменьшает количество вагонов). 
++ Прицепка/отцепка      вагонов может осуществляться только если поезд не движется.
++Может принимать маршрут следования (объект класса Route). 
++ При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте.
++ Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
+Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
+rescue => exception
 =end
 
 class Station
+    attr_reader :station_name
+    attr_accessor :trains
+
     def initialize(station_name)
-        @station_name  = station_name 
-        
+        @station_name = station_name 
+        @trains = {}
+        @trains_on_the_station = []
+        @train_type = []
     end
 
-end
+    def train_arrival(train_number, train_type, wagons)
+        @trains_on_the_station << train_number
+        @train_type << train_type
+        #@trains[train_number] = {train_type: train_type, wagons: wagons} # just in case
+    end
 
-class Rout
+    def show_trains_on_the_station
+        @trains_on_the_station.each do|number| 
+            puts "#{number}"
+        end
+    end
 
-    def initialize(first_stiation, last_station)
-        @first_stiation = first_stiation
-        @last_station = last_station
+    def show_train_types
+        @train_type.each do|type| 
+            puts "#{type}"
+        end
     end
     
+    def departure(train_number)
+        @trains_on_station.delete(train_number)
+    end
+end
+
+class Route
+
+    attr_reader :route
+
+    def initialize(departure_point, destination_point)
+        @departure_point = departure
+        @destination_point = destination
+        if departure_point.class == Station && destination_point == Station
+        @route = [departure_point, destination_point]
+        else
+            puts "There is no station that you require"
+        end
+    end
+    def add_way_station(station)
+        if station.class == Station
+            @route.insert(-2, station)
+          else
+            puts "There is no station that you require"
+          end
+    end
+    def exclude_station(station)
+        @stations.delete(station)
+      end
+    def show_route
+        @route.each {|station| puts "#{station.name}"} 
+    end
 end
 
 
 class Train
-    def initialize(train_num, train_type, train_wagons)
-        @train_num = train_num
+    
+    attr_reader :train_number
+    attr_reader :train_type
+    attr_reader :train_wagons
+    attr_reader :speed
+    attr_accessor :initial_station
+
+    def initialize(train_number, train_type, initial_station)
+        @train_number = train_number
         @train_type = train_type
-        @train_wagons =train_wagons
+        @wagons = 0
+        @speed = 0
+        if initial_station.class == Station
+            @initial_station = initial_station
+            else
+                puts "There is no station that you require"
+        end
+    end
+
+    def go
+        self.speed = 10
+    end
+    def speed_up
+        self.speed += 10
+    end
+    def speed_down
+        if @speed == 0
+            puts "speed down is unavailable, due to the train has been already stoped"
+        self.speed -= 10
+        end
+    end
+    def stop #added just in case
+        self.speed = 0
+    end
+    def show_speed
+        puts "current speed: #{@speed}"
+    end
+
+    def hook_wagons
+        self.wagons += 1 if @speed == 0
+        puts "the wagon hooked successfully"
+    end
+    def unhook_wagons
+        if @wagons <= 0 || @speed == 0
+            puts "unhooking is unavailable"
+        else
+            @wagons -= 1 
+            puts "the unhooking of the wagon was successful"
+        end
+    end
+    def show_wagons
+        puts "current number of the wagons: #{@wagons}"
+    end
+    
+    def set_route(route)
+        if route.class == Route
+          @route = route
+          @current_station = route.stations[0]
+        else
+          puts "There is no route that you require"
+        end
+    end
+    def move_forward(station)
+        @move_forward = @route[@route.index(@current_station) + 1]
+    end
+    def move_back(station)
+        @move_back = @route[@route.index(@current_station) - 1]
+    end
+    def show_current_location
+        puts "Dear passangers!"
+        puts "Our train follows from #{@move_back} station to #{@move_forward} station"
+        puts "At the moment our train is located at #{@current_station} station"
     end
 
 
