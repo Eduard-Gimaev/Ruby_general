@@ -23,8 +23,8 @@
 + Прицепка/отцепка      вагонов может осуществляться только если поезд не движется.
 + Может принимать маршрут следования (объект класса Route). 
 + При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте.
-  Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
-  Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
++ Может перемещаться между станциями, указанными в маршруте. Перемещение возможно вперед и назад, но только на 1 станцию за раз.
++ Возвращать предыдущую станцию, текущую, следующую, на основе маршрута
 
 =end
 
@@ -95,6 +95,7 @@ class Train
         @wagons = 0
         @speed = 0
         @routes = []
+        @current_route = 0
         @current_station = 0
     end
     def go
@@ -133,7 +134,7 @@ class Train
     
     def set_route(route)
         @routes << route
-        @current_station = route.stations[0] #if route.routes.include?(self)
+        @current_station = route.stations[0]
         puts "#{@current_station}"
 
     end
@@ -141,16 +142,48 @@ class Train
         @routes.each {|station| puts station.route}
     end
 
-    def move_forward(station)
-        @next_station = @route[@route.index(@current_station) + 1]
+    def move_forward(route)
+        a = route.stations.index(@current_station) + 1
+        b = route.stations.length-1
+        if a > b
+            puts "this is the last station"
+        else
+            @current_station = route.stations[a]
+        end
+        
+        #@current_station = @next_station
+
     end
-    def move_back(station)
-        @move_back = @route[@route.index(@current_station) - 1]
+    def move_back(route)
+        c = route.stations.index(@current_station) - 1
+        if c < 0
+            puts "this is the first station"
+        else
+            @current_station = route.stations[c]
+        end
+        
     end
-    def show_current_location
+    def show_current_location(route)
         puts "Dear passangers!"
-        puts "Our train follows from #{@move_back} station to #{@move_forward} station"
-        puts "At the moment our train is located at #{@current_station} station"
+
+        puts "At the moment our station is: #{@current_station}"
+
+        c = route.stations.index(@current_station) - 1
+        if c < 0
+            puts "This is the first station, please be ready for the departure"
+        else
+            previous_station = route.stations[route.stations.index(@current_station) - 1] 
+            puts "The previous station was: #{previous_station}"
+        end
+        a = route.stations.index(@current_station) + 1
+        b = route.stations.length-1
+        if a > b
+            puts "This is the last station, please check all your belongings with you"
+        else
+            next_station = route.stations[route.stations.index(@current_station) + 1]
+            puts "The next station will be: #{next_station}"
+        end
+
     end
 end
 
@@ -162,6 +195,7 @@ station5 = Station.new('Samara')
 station6 = Station.new('Vladimir')
 station7 = Station.new('Kazan')
 station8 = Station.new('Sochi')
+station8 = Station.new('Nigniynovgorod')
 
 train1 = Train.new("0001", "cargo")
 train2 = Train.new("0002", "passanger")
@@ -170,5 +204,14 @@ route1 = Route.new("Ufa", "Moscow")
 route2 = Route.new("Moscow", "Ufa") 
 route3 = Route.new("Ufa", "Sochi") 
 route4 = Route.new("Sochi", "Ufa") 
+
+route1.add_way_station('Kazan')
+route1.add_way_station('Vladimir')
+route1.add_way_station('Nigniynovgorod')
+train1.set_route(route1)
+train1.show_train_route
+train1.move_back(route1)
+train1.show_current_location(route1)
+
 
 
