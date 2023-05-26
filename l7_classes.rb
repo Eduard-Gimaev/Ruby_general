@@ -64,19 +64,20 @@ end
 
 class Route
     attr_reader :route
+    attr_reader :stations
     def initialize(departure_point, destination_point)
         @departure_point = departure_point
         @destination_point = destination_point
-        @route = [departure_point, destination_point]
+        @stations = [departure_point, destination_point]
     end
     def add_way_station(station)
-            @route.insert(-2, station)
+            @stations.insert(-2, station)
     end
     def exclude_station(station)
-        @route.delete(station)
+        @stations.delete(station)
       end
-    def show_route
-        print "this route has following stations: #{@route}"
+    def show_route_stations
+        print "this route has following stations: #{@stations}"
     end
 end
 
@@ -132,16 +133,16 @@ class Train
     
     def set_route(route)
         @routes << route
-        @current_station = route.route[0] #if route.routes.include?(self)
+        @current_station = route.stations[0] #if route.routes.include?(self)
         puts "#{@current_station}"
 
     end
-    def show_route
+    def show_train_route
         @routes.each {|station| puts station.route}
     end
 
     def move_forward(station)
-        @move_forward = @route[@route.index(@current_station) + 1]
+        @next_station = @route[@route.index(@current_station) + 1]
     end
     def move_back(station)
         @move_back = @route[@route.index(@current_station) - 1]
@@ -165,10 +166,9 @@ station8 = Station.new('Sochi')
 train1 = Train.new("0001", "cargo")
 train2 = Train.new("0002", "passanger")
 
-route1 = Route.new("Ufa", "Moscow") #via Kazan, Vladimir
-route2 = Route.new("Moscow", "Ufa") #via Vladimir, Kazan
-route3 = Route.new("Ufa", "Sochi") #via Samara, Volgograd, Krasnodar
-route4 = Route.new("Sochi", "Ufa") #via Krasnodar, Volgograd, Samara
-
+route1 = Route.new("Ufa", "Moscow") 
+route2 = Route.new("Moscow", "Ufa") 
+route3 = Route.new("Ufa", "Sochi") 
+route4 = Route.new("Sochi", "Ufa") 
 
 
