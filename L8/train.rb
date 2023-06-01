@@ -1,9 +1,11 @@
 class Train
-    attr_reader :number, :type
+    attr_reader :number, :type, :wagons
   
     def initialize(number, type)  
       @number = number
       @type = type
+      @speed = 0
+      @wagons = []
     end
   
     def go
@@ -27,12 +29,11 @@ class Train
     end
   
     def hook_wagons
-      @wagons = 0
-      @wagons = @wagons + 1 if @speed == 0
+      @wagons << @type if @speed == 0
     end
   
-    def unhook_wagons
-      @wagons -= 1 if @wagons >= 0 || @speed == 0
+    def unhook_wagons(num)
+      @wagons.delete_at(num)
     end
   
     def show_wagons

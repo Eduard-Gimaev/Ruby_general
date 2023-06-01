@@ -7,7 +7,7 @@ class Route
       @stations = [departure_point, destination_point]
     end
   
-    def add_way_station(station)
+    def add_station(station)
       @stations.insert(-2, station)
     end
   
