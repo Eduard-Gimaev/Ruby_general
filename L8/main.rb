@@ -1,117 +1,64 @@
-=begin
-    
-=end
+require_relative "route"
+require_relative "station"
+require_relative "train"
 
+class RailWayManager
 
+  def menu
+    command = ''
 
+    while command != 9
+      puts '_________________________________'
+      puts "Insert your command: "
+      puts "1. Create a station"
+      puts "2. Create a train"
+      puts "3. Create a route and determine the list of stations"
+      puts "4. Set a route to the train"
+      puts "5. Hook wagon to the train"
+      puts "6. Unhook wagons form the train"
+      puts "7. Move the train along the route according to the station of the destination"
+      puts "8. View the list of stations and the list of trains at the station"
+      puts "9. Close menu"
 
+      command = gets.chomp.to_i
 
-class Train
-  attr_reader :number, :type
-
-  def initialize(number, type)  
-    @number = number
-    @type = type
+      case command
+      when 1 then create_station
+      when 2 then create_train
+      when 3 then create_route
+      when 4 then set_route
+      when 5 then hook_wagons
+      when 6 then unhook_wagons
+      when 7 then train_move
+      when 8 then show_trains_on_stations
+      when 9 then break
+      else
+        puts "there is no such command, try again"
+      end
+    end
   end
 
-  def go
-    @speed = 10
-  end
-
-  def speed_up
-    @speed += 10
-  end
-
-  def current_speed
-    @speed
-  end
-
-  def speed_down
-    @speed -= 10 if @speed > 0
-  end
-
-  def stop
-    @speed = 0
-  end
-
-  def hook_wagons
-    @wagons = 0
-    @wagons = @wagons + 1 if @speed == 0
-  end
-
-  def unhook_wagons
-    @wagons -= 1 if @wagons >= 0 || @speed == 0
-  end
-
-  def show_wagons
-    @wagons
-  end
-
-  def set_route(route)
-    @route = route
-    @current_station_index = 0
-  end
-
-  def show_train_route
-    @route.stations
-  end
-
-  def move_forward
-    @current_station_index += 1 if next_station
-  end
-
-  def move_back
-    @current_station_index -= 1 if previous_station
-  end
-
-  def current_station
-    @route.stations[@current_station_index]
-  end
-
-  def next_station
-    @route.stations[@current_station_index + 1]
-  end
-
-def previous_station
-    @route.stations[@current_station_index - 1]
-  end
-
-#for testing only
-  def location
-    puts"previous: #{@route.stations[@current_station_index - 1]}"
-    puts"current: #{@route.stations[@current_station_index]}"
-    puts"next: #{@route.stations[@current_station_index + 1]}"
-  end
+def create_station
 end
 
-station1 = Station.new('Ufa')
-station2 = Station.new('Moscow')
-station3 = Station.new('Krasnodar')
-station4 = Station.new('Volgograd')
-station5 = Station.new('Samara')
-station6 = Station.new('Vladimir')
-station7 = Station.new('Kazan')
-station8 = Station.new('Sochi')
-station8 = Station.new('Nigniynovgorod')
+def create_train
+end
 
-train1 = Train.new("0001", "cargo")
-train2 = Train.new("0002", "passanger")
+def create_route
+end
 
-route1 = Route.new("Ufa", "Moscow") 
-route2 = Route.new("Moscow", "Ufa") 
-route3 = Route.new("Ufa", "Sochi") 
-route4 = Route.new("Sochi", "Ufa") 
+def set_route
+end
 
-route1.add_way_station('Kazan')
-route1.add_way_station('Vladimir')
-route1.add_way_station('Nigniynovgorod')
-train1.set_route(route1)
-train1.show_train_route
-train1.move_back
-train1.location #just for testing
-station1.train_arrival(train1)
-station1.train_arrival(train2)
-station1.show_trains_by_type("cargo")
+def hook_wagons
+end
 
+def unhook_wagons
+end
 
+def train_move
+end
+
+def show_trains_on_stations
+end
 
