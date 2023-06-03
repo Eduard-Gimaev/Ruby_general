@@ -26,7 +26,7 @@ class RailRoadOperator
       puts "4. Set a route to the train"
       puts "5. Hook wagon to the train"
       puts "6. Unhook wagons form the train"
-      puts "7. Move the train along the route according to the station of the destination"
+      puts "7. Move the train along the route forward or back"
       puts "8. View the list of stations and the list of trains at the station"
       puts "9. Close menu"
 
@@ -49,7 +49,7 @@ class RailRoadOperator
   end
 end
 
-
+#"1. Create a station"
 def create_station
   puts "Enter the name of the station:"
   name = gets.chomp
@@ -59,26 +59,26 @@ def create_station
       puts @all_stations
 end
 
+#"2. Create a train"
 def create_train
   puts "Enter the number of the train:"
   number = gets.chomp
-  puts "Cargo or passanger train?"
+  puts "What type of the train: cargo or passanger?"
   type = gets.chomp.capitalize
   if type == "Cargo"
     @all_trains << TrainCargo.new(number)
+    puts "The \"#{type}\" train with number: \"#{number}\" has been created"
   elsif 
     type == "Passanger"
     @all_trains << TrainPassanger.new(number)
+    puts "The \"#{type}\" train with number: \"#{number}\" has been created"
   else
-    puts "Enter the correct type of the train: cargo or passanger"
+    puts "Enter the correct type of the train"
   end
-  puts "The \"#{type}\" train with number: \"#{number}\" has been created"
-  puts"======"
-  puts "#{@all_trains}"
-  puts"======"
-  #@all_trains.select{|train| train.type==type}
+  puts @all_trains
 end
 
+#"3. Create a route and determine the list of stations"
 def create_route
   puts "departure_point:"
   departure_point = gets.chomp
@@ -90,34 +90,54 @@ def create_route
   puts @all_stations
 
 end
-
-def set_rout
+#"4. Set a route to the train"
+def set_route
 end
 
+#"5. Hook wagon to the train"
 def hook_wagons
+  train = train_by_num
+  train.hook_wagons
+  puts "Perfect, we have #{train.show_wagons.length} wagon(s) now"
 end
 
+#"6. Unhook wagons form the train"
 def unhook_wagons
+  train = train_by_num
+  puts "We have #{train.show_wagons.length} which one do you want to unhook?"
+  num = gets.chomp.to_i
+  train.unhook_wagons(num)
+  puts "We have #{train.show_wagons.length} wagon(s) left now"
 end
 
+#"7. Move the train along the route forward or back"
 def train_move
   train = train_by_num
-  #puts "Enter the number if the station: #{@all_stations.name}"
-  #name = gets.chomp
-  #station = @all_stations[name - 1]
-  
-  
-  train.speed_up
-  puts"#{train.current_speed}"
-  #train.move_to_station(station)
-  #puts "Train №#{@train.index(train) + 1} has been located at station: #{station.name}"
+  puts "where are you going to move: forward or back?"
+  direction = gets.chomp
+  if direction == forward
+    train.move_forward
+  elsif 
+    direction == back
+    train.move_forward
+  else
+    puts "there is no such direction, try again"
+  end
 end
 
+#"8. View the list of stations and the list of trains at the station"
 def show_trains_on_stations
 end
+
 
 def train_by_num
   puts "We have #{@all_trains.length} train(s), choose one:"
   number = gets.chomp.to_i
   train = @all_trains[number - 1]
+end
+
+def station_by_name
+  puts "We have bunch of the station: #{@all_stations.length}, choose one:"
+  name = gets.chomp.to_i
+  train = @all_stations[name - 1]
 end
