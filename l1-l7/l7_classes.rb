@@ -45,6 +45,7 @@ class Station
 
   def show_trains_by_type(type)
     @trains.select{|train| train.type == type}
+    puts "#{@trains}"
   end
 end
 
@@ -158,24 +159,38 @@ station7 = Station.new('Kazan')
 station8 = Station.new('Sochi')
 station8 = Station.new('Nigniynovgorod')
 
-train1 = Train.new("0001", "cargo")
+train1 = Train.new("00011", "cargo")
 train2 = Train.new("0002", "passanger")
+train3 = Train.new("0003", "cargo")
+train4 = Train.new("0004", "passanger")
+train5 = Train.new("0005", "cargo")
+train6 = Train.new("0006", "passanger")
+train7 = Train.new("0007", "cargo")
+train8 = Train.new("0008", "passanger")
+
+station1.train_arrival(train1)
+station1.train_arrival(train2)
+station1.train_arrival(train3)
+station1.train_arrival(train4)
+station1.train_arrival(train5)
+station1.train_arrival(train6)
+station1.train_arrival(train7)
+station1.train_arrival(train8)
+station1.show_trains_by_type("cargo")
+station1.show_trains_by_type("passanger")
 
 route1 = Route.new("Ufa", "Moscow") 
 route2 = Route.new("Moscow", "Ufa") 
 route3 = Route.new("Ufa", "Sochi") 
 route4 = Route.new("Sochi", "Ufa") 
 
-route1.add_way_station('Kazan')
-route1.add_way_station('Vladimir')
-route1.add_way_station('Nigniynovgorod')
-train1.set_route(route1)
-train1.show_train_route
-train1.move_back
-train1.location #just for testing
-station1.train_arrival(train1)
-station1.train_arrival(train2)
-station1.show_trains_by_type("cargo")
+#route1.add_way_station('Kazan')
+#route1.add_way_station('Vladimir')
+#route1.add_way_station('Nigniynovgorod')
+#train1.set_route(route1)
+#train1.show_train_route
+#train1.move_back
+#train1.location #just for testing
 
 
 
