@@ -16,6 +16,8 @@ class Route
     end
   
     def show_route_stations
-      @stations
+      puts "This route consists of #{@stations.length} station(s): #{@stations} "
+  
+      
     end
   end

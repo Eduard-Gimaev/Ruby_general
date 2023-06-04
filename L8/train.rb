@@ -37,7 +37,7 @@ class Train
     end
   
     def show_wagons
-      @wagons
+      puts "Train has #{@wagons.length} wagon(s)"
     end
   
     def set_route(route)
@@ -46,19 +46,28 @@ class Train
     end
   
     def show_train_route
-      @route.stations
+      puts "Train route: #{@route.stations} "
+      
     end
   
     def move_forward
-      @current_station_index += 1 if next_station
+      if next_station
+        @current_station_index += 1 
+      else
+        puts "This is the end of the route"
+      end
     end
   
     def move_back
-      @current_station_index -= 1 if previous_station
+      if previous_station
+        @current_station_index -= 1 if previous_station
+      else
+        puts "This is the very first station"
+      end
     end
   
     def current_station
-      @route.stations[@current_station_index]
+     puts "Current_station: #{@route.stations[@current_station_index]}" 
     end
   
     def next_station

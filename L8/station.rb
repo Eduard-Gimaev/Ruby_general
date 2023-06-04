@@ -14,7 +14,7 @@ class Station
       @trains.delete(train)
     end
   
-    def show_trains_by_type(type)
-      @trains.select{|train| train.type == type}
+    def show_trains_on_station
+      @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number} - #{val.type}" }
     end
   end
