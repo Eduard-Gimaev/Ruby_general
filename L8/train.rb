@@ -51,19 +51,11 @@ class Train
     end
   
     def move_forward
-      if next_station
-        @current_station_index += 1 
-      else
-        puts "This is the end of the route"
-      end
+        @current_station_index += 1 if next_station
     end
   
     def move_back
-      if previous_station
         @current_station_index -= 1 if previous_station
-      else
-        puts "This is the very first station"
-      end
     end
   
     def current_station

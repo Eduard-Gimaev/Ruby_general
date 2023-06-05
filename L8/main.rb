@@ -16,7 +16,7 @@ class RailRoadOperator
   def menu
     command = ''
 
-    while command != 10
+    while command != 11
       puts '====================================='
       puts "Insert your command: "
       puts "1. Create a station"
@@ -59,7 +59,7 @@ def create_station
   @all_stations << Station.new(name)
   puts "The station \"#{name}\" has been created"
   puts "List os station"
-  @all_stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name} : #{val.trains} " }
+  @all_stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
 end
 
 #"2. Create a train"
@@ -91,7 +91,6 @@ def create_route
   
   puts "The route \"#{departure_point}\" - \"#{destination_point}\" has been created"
   puts "This route consists of #{@all_routes[-1].stations} station(s)"
-  #@all_routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations}" }
 end
 
 #"4. filling the list of stations for the route"
@@ -99,9 +98,7 @@ def add_station_to_route
   route = route_by_points
   station = station_by_num.name
   route.add_station(station)
-  #puts "This route consists of #{route.stations}"
   route.show_route_stations
-
 end
 
 #"5. Removing a station from the route"
@@ -110,18 +107,12 @@ def delete_station_from_route
   station = station_by_num.name
   route.delete_station(station)
   route.show_route_stations
-  #puts "The way station #{station} has been deleted"
-  #@all_routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations}" }
 end
 
 #"6. Set a route to the train"
 def set_route
   train = train_by_num
   route = route_by_points
-  puts "#{train}"
-  puts "#{route}"
-  route.show_route_stations
-
   train.set_route(route)
   train.show_train_route
   train.current_station
@@ -166,9 +157,14 @@ end
 
 #"10. View the list of stations and the list of trains at the station"
 def show_trains_on_stations
-  @all_stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name} : #{val.trains} " }
-end
+  # why station.display_trains_on_station => array @train is empty??
+  @all_stations.each_with_index {|station, index| puts "#{station.name}: #{station.display_trains_on_station}" }
+  
+  # Just for testing
+  puts "============"
+  @all_trains.each_with_index {|train, index| puts "#{train.number}: #{train.current_station}" }
 
+end
 
 def train_by_num
   puts "This is the list of the trains:"

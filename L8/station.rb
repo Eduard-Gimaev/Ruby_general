@@ -1,7 +1,7 @@
 class Station
     attr_reader :name, :trains
   
-    def initialize(name = Ufa)
+    def initialize(name)
       @name = name 
       @trains = []
     end
@@ -14,7 +14,7 @@ class Station
       @trains.delete(train)
     end
   
-    def show_trains_on_station
-      @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number} - #{val.type}" }
+    def display_trains_on_station
+      puts "QT: #{@trains} "
     end
   end
