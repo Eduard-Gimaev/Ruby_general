@@ -84,13 +84,13 @@ end
 #"3. Create a route"
 def create_route
   puts "departure_point:"
-  departure_point = station_by_num.name
+  @departure_point = station_by_num
   puts "destination_point:"
-  destination_point = station_by_num.name
-  @routes << Route.new(departure_point, destination_point)
+  destination_point = station_by_num
+  @routes << Route.new(@departure_point, destination_point)
   
-  puts "The route \"#{departure_point}\" - \"#{destination_point}\" has been created"
-  puts "This route consists of #{@routes[-1].stations} station(s)"
+  puts "The route #{@departure_point.name} - #{destination_point.name} has been created"
+  puts "This route consists of #{@routes[-1].stations.length} station(s)"
 end
 
 #"4. filling the list of stations for the route"
@@ -114,8 +114,9 @@ def set_route
   train = train_by_num
   route = route_by_points
   train.set_route(route)
+  @departure_point.train_arrival(train)
   train.show_train_route
-  train.current_station
+  @departure_point.display_trains_on_station
 end
 
 #"7. Hook wagon to the train"
@@ -184,7 +185,7 @@ end
 
 def route_by_points
   puts "This is the list of the routes:"
-  @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations}" }
+  @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[index].name} - #{val.stations[-1].name}" }
   puts "Enter number of the route:"
   num = gets.chomp.to_i
   route = @routes[num - 1]
