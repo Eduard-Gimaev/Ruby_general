@@ -8,9 +8,9 @@ class RailRoadOperator
 
   def initialize(operator = "Ed")
     @operator = operator
-    @all_stations = []
-    @all_trains = []
-    @all_routes = []
+    @stations = []
+    @trains = []
+    @routes = []
   end
 
   def menu
@@ -56,10 +56,10 @@ end
 def create_station
   puts "Enter the name of the station:"
   name = gets.chomp
-  @all_stations << Station.new(name)
+  @stations << Station.new(name)
   puts "The station \"#{name}\" has been created"
   puts "List os station"
-  @all_stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
+  @stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
 end
 
 #"2. Create a train"
@@ -69,16 +69,16 @@ def create_train
   puts "What type of the train: cargo or passanger?"
   type = gets.chomp.capitalize
   if type == "Cargo"
-    @all_trains << TrainCargo.new(number)
+    @trains << TrainCargo.new(number)
     puts "The \"#{type}\" train with number: \"#{number}\" has been created"
   elsif 
     type == "Passanger"
-    @all_trains << TrainPassanger.new(number)
+    @trains << TrainPassanger.new(number)
     puts "The \"#{type}\" train with number: \"#{number}\" has been created"
   else
     puts "Enter the correct type of the train"
   end
-  @all_trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number} - #{val.type}" }
+  @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number} - #{val.type}" }
 end
 
 #"3. Create a route"
@@ -87,10 +87,10 @@ def create_route
   departure_point = station_by_num.name
   puts "destination_point:"
   destination_point = station_by_num.name
-  @all_routes << Route.new(departure_point, destination_point)
+  @routes << Route.new(departure_point, destination_point)
   
   puts "The route \"#{departure_point}\" - \"#{destination_point}\" has been created"
-  puts "This route consists of #{@all_routes[-1].stations} station(s)"
+  puts "This route consists of #{@routes[-1].stations} station(s)"
 end
 
 #"4. filling the list of stations for the route"
@@ -158,34 +158,34 @@ end
 #"10. View the list of stations and the list of trains at the station"
 def show_trains_on_stations
   # why station.display_trains_on_station => array @train is empty??
-  @all_stations.each_with_index {|station, index| puts "#{station.name}: #{station.display_trains_on_station}" }
+  @stations.each_with_index {|station, index| puts "#{station.name}: #{station.display_trains_on_station}" }
   
   # Just for testing
   puts "============"
-  @all_trains.each_with_index {|train, index| puts "#{train.number}: #{train.current_station}" }
+  @trains.each_with_index {|train, index| puts "#{train.number}: #{train.current_station}" }
 
 end
 
 def train_by_num
   puts "This is the list of the trains:"
-  @all_trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number}" }
-  puts "Enter one of the #{@all_trains.length} train(s):"
+  @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number}" }
+  puts "Enter one of the #{@trains.length} train(s):"
   num = gets.chomp.to_i
-  train = @all_trains[num - 1]
+  train = @trains[num - 1]
 end
 
 def station_by_num
   puts "This is the list of the stations:"
-  @all_stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
+  @stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
   puts "Enter the number of the station from the list above:"
   num = gets.chomp.to_i
-  station = @all_stations[num - 1]
+  station = @stations[num - 1]
 end
 
 def route_by_points
   puts "This is the list of the routes:"
-  @all_routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations}" }
+  @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations}" }
   puts "Enter number of the route:"
   num = gets.chomp.to_i
-  route = @all_routes[num - 1]
+  route = @routes[num - 1]
 end
