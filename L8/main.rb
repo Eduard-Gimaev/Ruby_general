@@ -96,7 +96,7 @@ end
 #"4. filling the list of stations for the route"
 def add_station_to_route
   route = route_by_points
-  station = station_by_num.name
+  station = station_by_num
   route.add_station(station)
   route.show_route_stations
 end
@@ -104,7 +104,7 @@ end
 #"5. Removing a station from the route"
 def delete_station_from_route
   route = route_by_points
-  station = station_by_num.name
+  station = station_by_num
   route.delete_station(station)
   route.show_route_stations
 end
@@ -115,8 +115,12 @@ def set_route
   route = route_by_points
   train.set_route(route)
   @departure_point.train_arrival(train)
-  train.show_train_route
-  @departure_point.display_trains_on_station
+  puts"tests"
+  train.show_train_route#just for testing
+  puts"====="
+  train.show_current_station#just for testing
+  puts"====="
+  train.current_station.display_trains_on_station#just for testing
 end
 
 #"7. Hook wagon to the train"
@@ -139,32 +143,35 @@ end
 #"9. Move the train along the route forward or back"
 def train_move
   train = train_by_num
-  train.current_station
-  train.show_train_route
+  train.show_current_station #just for testing
+  train.show_train_route #just for testing
   puts "where are you going to move: forward(f) or back(b)?"
   direction = gets.chomp
 
   if direction == "f"
+    train.current_station.departure(train)
     train.move_forward
-  elsif 
-    direction == "b"
+    train.current_station.train_arrival(train)
+  elsif direction == "b"
+    train.current_station.departure(train)
     train.move_back
+    train.current_station.train_arrival(train)
   else
     puts "there is no such direction, try again"
   end
-  train.current_station
+  train.show_current_station
   train.show_train_route
 end
 
 #"10. View the list of stations and the list of trains at the station"
 def show_trains_on_stations
   # why station.display_trains_on_station => array @train is empty??
-  @stations.each_with_index {|station, index| puts "#{station.name}: #{station.display_trains_on_station}" }
-  
-  # Just for testing
-  puts "============"
-  @trains.each_with_index {|train, index| puts "#{train.number}: #{train.current_station}" }
-
+  @stations.each_with_index do|station, index| puts "#{station.name}:"
+    station.trains.select do|train|
+      print " #{train.number} - #{train.type};"
+      puts""
+    end
+  end
 end
 
 def train_by_num
@@ -185,7 +192,7 @@ end
 
 def route_by_points
   puts "This is the list of the routes:"
-  @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[index].name} - #{val.stations[-1].name}" }
+  @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
   puts "Enter number of the route:"
   num = gets.chomp.to_i
   route = @routes[num - 1]

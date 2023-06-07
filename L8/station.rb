@@ -15,6 +15,6 @@ class Station
   end
 
   def display_trains_on_station
-    @trains.each_with_index {|train, index| puts "#{train.number}: #{train.type}" }
+    @trains.each_with_index {|train, index| puts "#{index + 1}. train: number - #{train.number}; type - #{train.type}" }
   end
 end

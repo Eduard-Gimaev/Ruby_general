@@ -45,9 +45,19 @@ class Train
     @current_station_index = 0
   end
 
+  def current_station
+    @route.stations[@current_station_index]
+  end
+
+  def show_current_station
+    puts "Current station: #{@route.stations[@current_station_index].name}"
+  end
+
   def show_train_route
-    puts "Train route: #{@route.stations} "
-    
+    #@stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; " }
+    puts "Train route:" 
+    @route.stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; "}
+    puts " "
   end
 
   def move_forward
@@ -56,10 +66,6 @@ class Train
 
   def move_back
       @current_station_index -= 1 if previous_station
-  end
-
-  def current_station
-    puts "Current_station: #{@route.stations[@current_station_index]}" 
   end
 
   def next_station
