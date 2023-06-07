@@ -22,13 +22,13 @@ class RailRoadOperator
       puts "1. Create a station"
       puts "2. Create a train"
       puts "3. Create a route"
-      puts "4. Filling the list of stations for the route"
-      puts "5. Removing a station from the route"
+      puts "4. Filling the route with stations"
+      puts "5. Delete stations from the route"
       puts "6. Set a route to the train"
       puts "7. Hook wagon to the train"
       puts "8. Unhook wagons form the train"
-      puts "9. Move the train along the route forward or back"
-      puts "10. View the list of stations and the list of trains at the station"
+      puts "9. Move the train forward or back along the route"
+      puts "10. View trains on stations"
       puts "11. Close menu"
 
       command = gets.chomp.to_i
@@ -66,7 +66,7 @@ end
 def create_train
   puts "Enter the number of the train:"
   number = gets.chomp
-  puts "What type of the train: cargo or passanger?"
+  puts "`Enter type of the train: cargo or passanger?"
   type = gets.chomp.capitalize
   if type == "Cargo"
     @trains << TrainCargo.new(number)
@@ -88,12 +88,10 @@ def create_route
   puts "destination_point:"
   destination_point = station_by_num
   @routes << Route.new(@departure_point, destination_point)
-  
   puts "The route #{@departure_point.name} - #{destination_point.name} has been created"
-  puts "This route consists of #{@routes[-1].stations.length} station(s)"
 end
 
-#"4. filling the list of stations for the route"
+#"4. filling the route with stations"
 def add_station_to_route
   route = route_by_points
   station = station_by_num
@@ -101,7 +99,7 @@ def add_station_to_route
   route.show_route_stations
 end
 
-#"5. Removing a station from the route"
+#"5. Delete stations from the route"
 def delete_station_from_route
   route = route_by_points
   station = station_by_num
@@ -115,12 +113,8 @@ def set_route
   route = route_by_points
   train.set_route(route)
   @departure_point.train_arrival(train)
-  puts"tests"
-  train.show_train_route#just for testing
-  puts"====="
-  train.show_current_station#just for testing
-  puts"====="
-  train.current_station.display_trains_on_station#just for testing
+  train.show_train_route
+  train.show_current_station
 end
 
 #"7. Hook wagon to the train"
@@ -140,12 +134,10 @@ def unhook_wagons
   train.show_wagons
 end
 
-#"9. Move the train along the route forward or back"
+#"9. Move the train forward or back along the route"
 def train_move
   train = train_by_num
-  train.show_current_station #just for testing
-  train.show_train_route #just for testing
-  puts "where are you going to move: forward(f) or back(b)?"
+  puts "Train gonna move: forward(f) or back(b)?"
   direction = gets.chomp
 
   if direction == "f"
@@ -163,7 +155,7 @@ def train_move
   train.show_train_route
 end
 
-#"10. View the list of stations and the list of trains at the station"
+#"10. View trains on stations"
 def show_trains_on_stations
   # why station.display_trains_on_station => array @train is empty??
   @stations.each_with_index do|station, index| puts "#{station.name}:"
@@ -173,6 +165,7 @@ def show_trains_on_stations
     end
   end
 end
+
 
 def train_by_num
   puts "This is the list of the trains:"
