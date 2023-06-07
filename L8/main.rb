@@ -166,7 +166,7 @@ def show_trains_on_stations
   end
 end
 
-
+private
 def train_by_num
   puts "This is the list of the trains:"
   @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number}" }
