@@ -24,39 +24,38 @@ class RailRoadOperator
 
   private
   def show_menu
-    command = ''
-
-    while command != 12
-      puts '====================================='
-      puts "Insert your command: "
-      puts "1. Create a station"
-      puts "2. Create a train"
-      puts "3. Create a route"
-      puts "4. Filling the route with stations"
-      puts "5. Delete stations from the route"
-      puts "6. Set a route to the train"
-      puts "7. Hook wagon to the train"
-      puts "8. Unhook wagons form the train"
-      puts "9. Move the train forward or back along the route"
-      puts "10. View trains on stations"
-      puts "11. Close menu"
-      command = gets.chomp.to_i
-
-      case command
-      when 1 then create_station
-      when 2 then create_train
-      when 3 then create_route
-      when 4 then add_station_to_route
-      when 5 then delete_station_from_route
-      when 6 then set_route
-      when 7 then hook_wagons
-      when 8 then unhook_wagons
-      when 9 then train_move
-      when 10 then show_trains_on_stations
-      when 11 then exit
-      else
-        puts "there is no such command, try again"
-      end
+    puts '====================================='
+    puts "Insert your command: "
+    puts "1. Create a station"
+    puts "2. Create a train"
+    puts "3. Create a route"
+    puts "4. Create a wagon"
+    puts "5. Filling the route with stations"
+    puts "6. Delete stations from the route"
+    puts "7. Set a route to the train"
+    puts "8. Hook wagon to the train"
+    puts "9. Unhook wagons form the train"
+    puts "10. Move the train forward or back along the route"
+    puts "11. View trains on stations"
+    puts "12. Close menu"
+  end
+    
+  def run(command)
+    case command
+    when 1 then create_station
+    when 2 then create_train
+    when 3 then create_route
+    when 4 then create_wagon
+    when 5 then add_station_to_route
+    when 6 then delete_station_from_route
+    when 7 then set_route
+    when 8 then hook_wagons
+    when 9 then unhook_wagons
+    when 10 then train_move
+    when 11 then show_trains_on_stations
+    when 12 then exit
+    else
+      puts "there is no such command, try again"
     end
   end
 end
@@ -100,7 +99,13 @@ def create_route
   puts "The route #{@departure_point.name} - #{destination_point.name} has been created"
 end
 
-#"4. Filling the route with stations"
+#"4. Create wagon"
+def create_wagon
+  @wagons << WagonCargo.new
+  @wagons << WagonPassanger.new
+end
+
+#"5. Filling the route with stations"
 def add_station_to_route
   route = route_select
   station = station_select
@@ -108,7 +113,7 @@ def add_station_to_route
   route.show_route_stations
 end
 
-#"5. Delete stations from the route"
+#"6. Delete stations from the route"
 def delete_station_from_route
   route = route_select
   station = station_select
@@ -116,7 +121,7 @@ def delete_station_from_route
   route.show_route_stations
 end
 
-#"6. Set a route to the train"
+#"7. Set a route to the train"
 def set_route
   train = train_select
   route = route_select
@@ -126,7 +131,7 @@ def set_route
   train.show_current_station
 end
 
-#"7. Hook wagon to the train"
+#"8. Hook wagon to the train"
 def hook_wagons
   train = train_select
   wagon = wagon_select
@@ -134,14 +139,14 @@ def hook_wagons
   train.show_wagons
 end
 
-#"8. Unhook wagons form the train"
+#"9. Unhook wagons form the train"
 def unhook_wagons
   train = train_select
   train.unhook_wagons
   train.show_wagons
 end
 
-#"9. Move the train forward or back along the route"
+#"10. Move the train forward or back along the route"
 def train_move
   train = train_select
   puts "Train gonna move: forward(f) or back(b)?"
@@ -162,7 +167,7 @@ def train_move
   train.show_train_route
 end
 
-#"10. View trains on stations"
+#"11. View trains on stations"
 def show_trains_on_stations
   # why station.display_trains_on_station => array @train is empty??
   @stations.each_with_index do|station, index| puts "#{station.name}:"
@@ -199,10 +204,6 @@ def route_select
 end
 
 def wagon_select
-  if @wagons.empty?
-    @wagons << WagonCargo.new
-    @wagons << WagonPassanger.new
-  end
   puts "Enter the number of the type:"
   @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type}" }
   num = gets.chomp.to_i
