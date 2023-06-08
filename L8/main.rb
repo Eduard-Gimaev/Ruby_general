@@ -3,20 +3,30 @@ require_relative "station"
 require_relative "train"
 require_relative "train_passanger"
 require_relative "train_cargo"
+require_relative "wagon_cargo"
+require_relative "wagon_passanger"
 
 class RailRoadOperator
-
-  def initialize(operator = "Ed")
-    @operator = operator
+  def initialize
     @stations = []
     @trains = []
     @routes = []
+    @wagons = []
   end
 
-  def menu
+  def start
+    loop do 
+      show_menu
+      command = gets.chomp.to_i
+      run(command)
+    end
+  end
+
+  private
+  def show_menu
     command = ''
 
-    while command != 11
+    while command != 12
       puts '====================================='
       puts "Insert your command: "
       puts "1. Create a station"
@@ -30,7 +40,6 @@ class RailRoadOperator
       puts "9. Move the train forward or back along the route"
       puts "10. View trains on stations"
       puts "11. Close menu"
-
       command = gets.chomp.to_i
 
       case command
@@ -44,7 +53,7 @@ class RailRoadOperator
       when 8 then unhook_wagons
       when 9 then train_move
       when 10 then show_trains_on_stations
-      when 11 then break
+      when 11 then exit
       else
         puts "there is no such command, try again"
       end
@@ -58,7 +67,7 @@ def create_station
   name = gets.chomp
   @stations << Station.new(name)
   puts "The station \"#{name}\" has been created"
-  puts "List os station"
+  puts "List of station"
   @stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
 end
 
@@ -66,7 +75,7 @@ end
 def create_train
   puts "Enter the number of the train:"
   number = gets.chomp
-  puts "`Enter type of the train: cargo or passanger?"
+  puts "`Enter the type of the train: cargo or passanger?"
   type = gets.chomp.capitalize
   if type == "Cargo"
     @trains << TrainCargo.new(number)
@@ -84,33 +93,33 @@ end
 #"3. Create a route"
 def create_route
   puts "departure_point:"
-  @departure_point = station_by_num
+  @departure_point = station_select
   puts "destination_point:"
-  destination_point = station_by_num
+  destination_point = station_select
   @routes << Route.new(@departure_point, destination_point)
   puts "The route #{@departure_point.name} - #{destination_point.name} has been created"
 end
 
-#"4. filling the route with stations"
+#"4. Filling the route with stations"
 def add_station_to_route
-  route = route_by_points
-  station = station_by_num
+  route = route_select
+  station = station_select
   route.add_station(station)
   route.show_route_stations
 end
 
 #"5. Delete stations from the route"
 def delete_station_from_route
-  route = route_by_points
-  station = station_by_num
+  route = route_select
+  station = station_select
   route.delete_station(station)
   route.show_route_stations
 end
 
 #"6. Set a route to the train"
 def set_route
-  train = train_by_num
-  route = route_by_points
+  train = train_select
+  route = route_select
   train.set_route(route)
   @departure_point.train_arrival(train)
   train.show_train_route
@@ -119,24 +128,22 @@ end
 
 #"7. Hook wagon to the train"
 def hook_wagons
-  train = train_by_num
-  train.hook_wagons
+  train = train_select
+  wagon = wagon_select
+  train.hook_wagons(wagon)
   train.show_wagons
 end
 
 #"8. Unhook wagons form the train"
 def unhook_wagons
-  train = train_by_num
-  train.show_wagons 
-  puts "which one do you want to unhook?"
-  num = gets.chomp.to_i
-  train.unhook_wagons(num)
+  train = train_select
+  train.unhook_wagons
   train.show_wagons
 end
 
 #"9. Move the train forward or back along the route"
 def train_move
-  train = train_by_num
+  train = train_select
   puts "Train gonna move: forward(f) or back(b)?"
   direction = gets.chomp
 
@@ -166,8 +173,8 @@ def show_trains_on_stations
   end
 end
 
-private
-def train_by_num
+# Complementary functions for internal processes
+def train_select
   puts "This is the list of the trains:"
   @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number}" }
   puts "Enter one of the #{@trains.length} train(s):"
@@ -175,7 +182,7 @@ def train_by_num
   train = @trains[num - 1]
 end
 
-def station_by_num
+def station_select
   puts "This is the list of the stations:"
   @stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
   puts "Enter the number of the station from the list above:"
@@ -183,10 +190,21 @@ def station_by_num
   station = @stations[num - 1]
 end
 
-def route_by_points
+def route_select
   puts "This is the list of the routes:"
   @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
   puts "Enter number of the route:"
   num = gets.chomp.to_i
   route = @routes[num - 1]
+end
+
+def wagon_select
+  if @wagons.empty?
+    @wagons << WagonCargo.new
+    @wagons << WagonPassanger.new
+  end
+  puts "Enter the number of the type:"
+  @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type}" }
+  num = gets.chomp.to_i
+  wagon = @wagons[num - 1]
 end

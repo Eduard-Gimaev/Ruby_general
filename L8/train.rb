@@ -28,16 +28,16 @@ class Train
     @speed = 0
   end
 
-  def hook_wagons
-    @wagons << @type if @speed == 0
+  def hook_wagons(wagon)
+    @wagons.insert(-1, wagon) if @speed == 0 && wagon.type == type
   end
 
-  def unhook_wagons(num)
-    @wagons.delete_at(num)
+  def unhook_wagons
+    @wagons.pop
   end
 
   def show_wagons
-    puts "Train has #{@wagons.length} wagon(s)"
+    puts "The #{self.type} train number: #{self.number} has #{@wagons.length} wagon(s)"
   end
 
   def set_route(route)
