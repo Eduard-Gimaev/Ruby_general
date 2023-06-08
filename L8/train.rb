@@ -53,7 +53,6 @@ class Train
   end
 
   def show_train_route
-    #@stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; " }
     puts "Train route:" 
     @route.stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; "}
     puts " "

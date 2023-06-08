@@ -138,7 +138,6 @@ end
 def hook_wagons
   train = train_select
   wagon = wagon_select
-
   train.hook_wagons(wagon)
   train.show_wagons
 end
