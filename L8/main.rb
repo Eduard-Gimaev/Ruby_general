@@ -3,6 +3,7 @@ require_relative "station"
 require_relative "train"
 require_relative "train_passanger"
 require_relative "train_cargo"
+require_relative "wagon"
 require_relative "wagon_cargo"
 require_relative "wagon_passanger"
 
@@ -103,6 +104,8 @@ end
 def create_wagon
   @wagons << WagonCargo.new
   @wagons << WagonPassanger.new
+  puts @wagons
+  @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type}" }
 end
 
 #"5. Filling the route with stations"
@@ -135,6 +138,7 @@ end
 def hook_wagons
   train = train_select
   wagon = wagon_select
+
   train.hook_wagons(wagon)
   train.show_wagons
 end
