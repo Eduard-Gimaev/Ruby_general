@@ -1,8 +1,8 @@
 
 class TrainPassanger < Train
     private
-    def initialize (name, type = "passanger")
-        @type = type
+    def initialize (number)
+        @type = :passanger
         super
     end
 
