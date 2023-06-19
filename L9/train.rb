@@ -3,13 +3,16 @@ class Train
   
   attr_reader :number, :type, :wagons
   @@trains = []
+  @@inst = 0
 
   def initialize(number)  
     @number = number
     @speed = 0
     @wagons = []
     @@trains << self
+    @@inst += 1
     register_instance
+    
   end
 
   def self.find(number)

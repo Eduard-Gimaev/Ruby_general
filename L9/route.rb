@@ -2,11 +2,14 @@ class Route
   include InstanceCounter
 
   attr_reader :route, :stations
+  @@inst = 0
 
   def initialize(departure_point, destination_point)
     @departure_point = departure_point
     @destination_point = destination_point
     @stations = [departure_point, destination_point]
+
+    @@inst += 1
     register_instance
   end
 
