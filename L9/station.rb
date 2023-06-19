@@ -1,6 +1,9 @@
 class Station
+  include InstanceCounter
+
   attr_reader :name, :trains
   @@stations = []
+  @@inst = 0
 
   def self.all
     @@stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
@@ -11,6 +14,8 @@ class Station
     @name = name.to_s.capitalize
     @trains = []
     @@stations << self
+    @@inst += 1
+    register_instance
   end
 
   
