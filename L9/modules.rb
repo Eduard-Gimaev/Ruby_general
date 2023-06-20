@@ -14,18 +14,20 @@ module InstanceCounter
   def self.included(base)
     base.extend ClassMethods
     base.include InstanceMethods
+    
   end
   
   module ClassMethods
-    @@instances = 0
-    def instances_count
-      @@instances += 1
-      puts @@instances
-    end 
+    #attr_reader :instances
+    
     def instances
-      puts @@instances
-    end
+      puts @instances ||= 0
+    end 
 
+    def instances_count
+      @instances ||= 0
+      @instances += 1
+    end
   end
 
   module InstanceMethods

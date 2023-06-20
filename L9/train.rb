@@ -1,5 +1,6 @@
 class Train
-  include Manufacturer, InstanceCounter
+  include Manufacturer
+  include InstanceCounter
   
   attr_reader :number, :type, :wagons
   @@trains = []
@@ -10,13 +11,11 @@ class Train
     @wagons = []
     @@trains << self
     register_instance
-
   end
 
   def self.find(number)
     @@trains.each_with_index {|train, index| puts "#{index + 1}. #{train}" if train.number == number}
   end
-
 
   def go
     @speed = 10

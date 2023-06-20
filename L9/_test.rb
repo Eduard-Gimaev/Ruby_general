@@ -27,8 +27,7 @@ puts "#1. Create a station"
     @stations << Station.new("Paris")
     @stations << Station.new("Lisbon")
     @stations << Station.new("Benidorm")
-    #@@stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
-    puts "@@"
+    puts "List if stations:"
     Station.all
     puts ""
 
@@ -161,12 +160,19 @@ puts "11. View trains on stations"
         puts""
         end
     end
-
-puts "InstanceCounter_ClassMethods"
-
-Station.instances
-Train.instances
+puts ""
+puts "INSTATNCES"
+puts "#Station"
+Station.instances 
+puts "#Route"
 Route.instances
+puts "#Train"
+Train.instances
+puts "#TrainCargo"
+TrainCargo.instances
+puts "#TrainPassanger"
+TrainPassanger.instances
 
-puts "InstanceCounter_InstanceMethods"
+
+
 
