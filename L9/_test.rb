@@ -16,7 +16,7 @@ rro1 = RailRoadOperator.new
     @routes = []
     @wagons = []
 
-puts "1. Create a station"
+puts "#1. Create a station"
     @stations << Station.new("Ufa")
     @stations << Station.new("Kazan")
     @stations << Station.new("Msk")
@@ -30,8 +30,9 @@ puts "1. Create a station"
     #@@stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
     puts "@@"
     Station.all
+    puts ""
 
-puts "2. Create a train"
+puts "#2. Create a train"
     @trains << TrainCargo.new("001C")
     @trains << TrainCargo.new("002C")
     @trains << TrainPassanger.new("003P")
@@ -46,11 +47,11 @@ puts "2. Create a train"
     Train.find("001C")
     Train.find("003P")
     puts ""
-puts "3. Create a route"
+puts "#3. Create a route"
     @routes << Route.new(@stations[0], @stations[-1])
     @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
     puts ""
-puts "4. Create wagon"
+puts "#4. Create wagon"
     @wagons << WagonCargo.new
     @wagons << WagonPassanger.new
     @wagons[0].set_manufacturer("WagoCargo")
@@ -58,7 +59,7 @@ puts "4. Create wagon"
     @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer} " }
     puts ""
 
-puts "5. Filling the route with stations"
+puts "#5. Filling the route with stations"
     @routes[0].add_station(@stations[1])
     @routes[0].add_station(@stations[2])
     @routes[0].add_station(@stations[3])
@@ -69,11 +70,11 @@ puts "5. Filling the route with stations"
     @routes[0].add_station(@stations[8])
     @routes[0].show_route_stations
     puts ""
-puts "6. Delete stations from the route"
+puts "#6. Delete stations from the route"
     @routes[0].delete_station(@stations[8])
     @routes[0].show_route_stations
     puts ""
-puts "7. Set a route to the train"
+puts "#7. Set a route to the train"
     @trains[0].set_route(@routes[0])
     @trains[1].set_route(@routes[0])
     @trains[2].set_route(@routes[0])
@@ -84,7 +85,7 @@ puts "Put the particular train to the first station of the route"
     @stations[0].train_arrival(@trains[2])
     @stations[0].train_arrival(@trains[3])
     puts ""
-puts "8. Hook wagon to the train"
+puts "#8. Hook wagon to the train"
 #Cargo
     @trains[0].hook_wagons(@wagons[0])
     @trains[1].hook_wagons(@wagons[0])
@@ -96,7 +97,7 @@ puts "8. Hook wagon to the train"
     @trains[2].show_wagons
     @trains[3].show_wagons
     puts ""
-puts "9. Unhook wagons form the train"
+puts "#9. Unhook wagons form the train"
     @trains[0].unhook_wagons
     @trains[1].unhook_wagons
     @trains[2].unhook_wagons
@@ -106,7 +107,7 @@ puts "9. Unhook wagons form the train"
     @trains[2].show_wagons
     @trains[3].show_wagons
     puts ""
-puts "10. Move the train" 
+puts "#10. Move the train" 
 #forward 
     @trains[1].current_station.departure(@trains[1])
     @trains[1].move_forward
@@ -161,8 +162,11 @@ puts "11. View trains on stations"
         end
     end
 
+puts "InstanceCounter_ClassMethods"
 
+Station.instances
+Train.instances
+Route.instances
 
-
-
+puts "InstanceCounter_InstanceMethods"
 
