@@ -1,6 +1,5 @@
 class Train
-  include Manufacturer
-  include InstanceCounter
+  include Manufacturer, InstanceCounter
   
   attr_reader :number, :type, :wagons
   @@trains = []
