@@ -1,5 +1,5 @@
 class Train
-  include Manufacturer, InstanceCounter
+  include Manufacturer, InstanceCounter, Validatior
   
   attr_reader :number, :type, :wagons
   @@trains = []
@@ -10,6 +10,7 @@ class Train
     @wagons = []
     @@trains << self
     register_instance
+    valid_train_number!
   end
 
   def self.find(number)
@@ -64,7 +65,6 @@ class Train
   def show_train_route
     puts "Train route:" 
     @route.stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; "}
-    puts " "
   end
 
   def move_forward

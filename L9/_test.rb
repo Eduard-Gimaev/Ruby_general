@@ -17,7 +17,7 @@ rro1 = RailRoadOperator.new
     @wagons = []
 
 puts "#1. Create a station"
-    @stations << Station.new("Ufa")
+    @stations << Station.new("Uf")
     @stations << Station.new("Kazan")
     @stations << Station.new("Msk")
     @stations << Station.new("Minsk")
@@ -27,24 +27,29 @@ puts "#1. Create a station"
     @stations << Station.new("Paris")
     @stations << Station.new("Lisbon")
     @stations << Station.new("Benidorm")
-    puts "List if stations:"
+    puts "Stations:"
     Station.all
     puts ""
 
 puts "#2. Create a train"
-    @trains << TrainCargo.new("001C")
-    @trains << TrainCargo.new("002C")
-    @trains << TrainPassanger.new("003P")
-    @trains << TrainPassanger.new("004P")
+    @trains << TrainCargo.new("001-CC")
+    @trains << TrainCargo.new("CCC-02")
+    @trains << TrainPassanger.new("003PP")
+    @trains << TrainPassanger.new("004-PP")
     @trains[0].set_manufacturer("T-Cargo")
     @trains[1].set_manufacturer("T-Cargo")
     @trains[2].set_manufacturer("T-Pas")
     @trains[3].set_manufacturer("T-Pas")
-    puts "show_manufacturer"
+    puts "Test for @trains[0].Valid?: #{@trains[0].valid?}"
+    puts "Test for @trains[1].Valid?: #{@trains[1].valid?}"
+    puts "Test for @trains[2].Valid?: #{@trains[2].valid?}"
+    puts "Test for @trains[3].Valid?: #{@trains[3].valid?}"
+
+    puts "Trains:"
     @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} this train produced by #{train.show_manufacturer}" }
-    puts "find"
-    Train.find("001C")
-    Train.find("003P")
+    puts "Find"
+    Train.find("001-CC")
+    Train.find("003-PP")
     puts ""
 puts "#3. Create a route"
     @routes << Route.new(@stations[0], @stations[-1])
@@ -55,6 +60,7 @@ puts "#4. Create wagon"
     @wagons << WagonPassanger.new
     @wagons[0].set_manufacturer("WagoCargo")
     @wagons[1].set_manufacturer("WagoPas")
+    puts "Wagons:"
     @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer} " }
     puts ""
 
@@ -166,8 +172,6 @@ puts "#Station"
 Station.instances 
 puts "#Route"
 Route.instances
-puts "#Train"
-Train.instances
 puts "#TrainCargo"
 TrainCargo.instances
 puts "#TrainPassanger"

@@ -67,11 +67,8 @@ end
 def create_station
   puts "Enter the name of the station:"
   name = gets.chomp.to_s.capitalize
-  
-  #@stations << Station.new(name)
-  #puts "The station \"#{name}\" has been created"
-  #puts "List of station"
-  #@stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
+  @stations << Station.new(name)
+  puts "The station \"#{name}\" has been created"
 end
 
 #"2. Create a train"
@@ -90,12 +87,10 @@ def create_train
   else
     puts "Enter the correct type of the train"
   end
-  @trains[0].set_manufacturer("T-Cargo")
-  @trains[1].set_manufacturer("T-Cargo")
-  @trains[2].set_manufacturer("T-Pas")
-  @trains[3].set_manufacturer("T-Pas")
-
-  @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} this train produced by #{train.show_manufacturer}" }
+  puts "Set manufacturer:"
+  manufacturer = gets.chomp
+  @trains[-1].set_manufacturer(manufacturer)
+  @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} produced by #{train.show_manufacturer}" }
 end
 
 #"3. Create a route"
@@ -185,7 +180,6 @@ def show_trains_on_stations
   @stations.each_with_index do|station, index| puts "#{station.name}:"
     station.trains.select do|train|
       print " #{train.number} - #{train.type};"
-      puts""
     end
   end
 end

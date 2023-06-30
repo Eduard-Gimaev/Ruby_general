@@ -21,6 +21,5 @@ class Route
   def show_route_stations
     puts "This route consists of #{@stations.length} station(s): "
     @stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; " }
-    puts " "
   end
 end
