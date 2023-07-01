@@ -42,7 +42,7 @@ module Validatior
   NUMBER_FORMAT = /^\w{3}-*\w{2}$/
   
   def valid?
-    valid_train!
+    validate!
   rescue
     false
   end
