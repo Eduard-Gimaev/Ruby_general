@@ -14,7 +14,12 @@ class Station
     @trains = []
     @@stations << self
     register_instance
-    valid_station_name!
+    validate!
+  end
+
+  def validate!
+    raise ArgumentError, "Name is too short" unless self.name.length > 2
+    true
   end
 
   def train_arrival(train)

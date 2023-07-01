@@ -10,7 +10,13 @@ class Train
     @wagons = []
     @@trains << self
     register_instance
-    valid_train_number!
+    validate!
+  end
+
+  def validate!
+    raise ArgumentError, "Number is too short" unless self.number.length > 4
+    raise ArgumentError, "Incorrect format of the number" unless self.number =~ NUMBER_FORMAT
+    true
   end
 
   def self.find(number)

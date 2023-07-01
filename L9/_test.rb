@@ -17,7 +17,7 @@ rro1 = RailRoadOperator.new
     @wagons = []
 
 puts "#1. Create a station"
-    @stations << Station.new("Uf")
+    @stations << Station.new("Ufa")
     @stations << Station.new("Kazan")
     @stations << Station.new("Msk")
     @stations << Station.new("Minsk")
@@ -40,10 +40,10 @@ puts "#2. Create a train"
     @trains[1].set_manufacturer("T-Cargo")
     @trains[2].set_manufacturer("T-Pas")
     @trains[3].set_manufacturer("T-Pas")
-    puts "Test for @trains[0].Valid?: #{@trains[0].valid?}"
-    puts "Test for @trains[1].Valid?: #{@trains[1].valid?}"
-    puts "Test for @trains[2].Valid?: #{@trains[2].valid?}"
-    puts "Test for @trains[3].Valid?: #{@trains[3].valid?}"
+    #puts "Test for @trains[0].Valid?: #{@trains[0].valid?}"
+    #puts "Test for @trains[1].Valid?: #{@trains[1].valid?}"
+    #puts "Test for @trains[2].Valid?: #{@trains[2].valid?}"
+    #puts "Test for @trains[3].Valid?: #{@trains[3].valid?}"
 
     puts "Trains:"
     @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} this train produced by #{train.show_manufacturer}" }

@@ -65,28 +65,37 @@ end
 
 #"1. Create a station"
 def create_station
-  puts "Enter the name of the station:"
-  name = gets.chomp.to_s.capitalize
-  @stations << Station.new(name)
-  puts "The station \"#{name}\" has been created"
+  begin
+    puts "Enter the name of the station:"
+    name = gets.chomp.to_s.capitalize
+    @stations << Station.new(name)
+    puts "The station \"#{name}\" has been created"
+  rescue => e
+    puts e
+  end
 end
 
 #"2. Create a train"
 def create_train
-  puts "Enter the number of the train:"
-  number = gets.chomp
-  puts "`Enter the type of the train: cargo or passanger?"
-  type = gets.chomp.capitalize
-  if type == "Cargo"
-    @trains << TrainCargo.new(number)
-    puts "The \"#{type}\" train with number: \"#{number}\" has been created"
-  elsif 
-    type == "Passanger"
-    @trains << TrainPassanger.new(number)
-    puts "The \"#{type}\" train with number: \"#{number}\" has been created"
-  else
-    puts "Enter the correct type of the train"
-  end
+  begin 
+    puts "Enter the number of the train:"
+    number = gets.chomp
+    puts "`Enter the type of the train: cargo or passanger?"
+    type = gets.chomp.capitalize
+    if type == "Cargo"
+      @trains << TrainCargo.new(number)
+      puts "The \"#{type}\" train with number: \"#{number}\" has been created"
+    elsif 
+      type == "Passanger"
+      @trains << TrainPassanger.new(number)
+      puts "The \"#{type}\" train with number: \"#{number}\" has been created"
+    else
+      puts "Enter a correct type of the train"
+    end
+  rescue => e 
+    puts e 
+  end 
+
   puts "Set manufacturer:"
   manufacturer = gets.chomp
   @trains[-1].set_manufacturer(manufacturer)

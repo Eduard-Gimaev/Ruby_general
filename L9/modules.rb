@@ -39,26 +39,12 @@ module InstanceCounter
 end
 
 module Validatior
-  NUMBER_FORMAT = /^\d{3}|.{3}-*\d{2}|.{2}$/
+  NUMBER_FORMAT = /^\w{3}-*\w{2}$/
   
   def valid?
-    valid_train_number!
+    valid_train!
   rescue
     false
   end
-  
-protected
-  def valid_station_name!
-    raise ArgumentError, "Number can't be empty" if self.name.empty?
-    raise ArgumentError, "Number can't be shorter than 3 symbols" if self.name.length < 3
-    true
-  end
 
-  def valid_train_number!
-    raise ArgumentError, "Number can't be empty" if self.number.empty?
-    raise ArgumentError, "Number can't be shorter than 3 symbols" if self.number.length < 3
-    raise ArgumentError, "Incorrect format of the number" if self.number !~ NUMBER_FORMAT
-    true
-  end
-  
 end
