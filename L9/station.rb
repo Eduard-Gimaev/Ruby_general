@@ -11,10 +11,11 @@ class Station
 
   def initialize(name)
     @name = name.to_s.capitalize
+    validate!
     @trains = []
     @@stations << self
     register_instance
-    validate!
+    
   end
 
   def validate!

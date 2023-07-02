@@ -6,11 +6,12 @@ class Train
 
   def initialize(number)  
     @number = number
+    validate!
     @speed = 0
     @wagons = []
     @@trains << self
     register_instance
-    validate!
+    
   end
 
   def validate!

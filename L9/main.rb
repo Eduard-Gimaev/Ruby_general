@@ -92,13 +92,14 @@ def create_train
     else
       puts "Enter a correct type of the train"
     end
+    puts "Set manufacturer:"
+    manufacturer = gets.chomp
+    @trains[-1].set_manufacturer(manufacturer)
   rescue => e 
     puts e 
   end 
 
-  puts "Set manufacturer:"
-  manufacturer = gets.chomp
-  @trains[-1].set_manufacturer(manufacturer)
+  
   @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} produced by #{train.show_manufacturer}" }
 end
 
