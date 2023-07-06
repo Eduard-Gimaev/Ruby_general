@@ -11,11 +11,11 @@ class Station
 
   def initialize(name)
     @name = name.to_s.capitalize
-    validate!
     @trains = []
+
+    validate!
     @@stations << self
     register_instance
-    
   end
 
   def validate!
@@ -34,4 +34,11 @@ class Station
   def display_trains_on_station
     @trains.each_with_index {|train, index| puts "#{index + 1}. train: number - #{train.number}; type - #{train.type}" }
   end
+  
+  def all_trains(&_block)
+    @trains.each do |train|
+      yield(train)
+    end
+  end
+
 end

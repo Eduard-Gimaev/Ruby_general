@@ -6,18 +6,25 @@ class Train
 
   def initialize(number)  
     @number = number
-    validate!
     @speed = 0
     @wagons = []
+   # wagons.times { initialize_wagons(volume) }
+
+    validate!
     @@trains << self
     register_instance
-    
   end
 
   def validate!
     raise ArgumentError, "Number is too short" unless self.number.length > 4
     raise ArgumentError, "Incorrect format of the number" unless self.number =~ NUMBER_FORMAT
     true
+  end
+
+  def all_wagons(&_block)
+    @wagons.each do |wagon|
+      yield(wagon)
+    end
   end
 
   def self.find(number)
@@ -88,5 +95,15 @@ class Train
 
   def previous_station
     @route.stations[@current_station_index - 1]
+  end
+
+  protected
+
+  def initialize_wagons(volume)
+    @wagons << Wagon.new(volume)
+  end
+
+  def type_match?(_wagon)
+    true
   end
 end

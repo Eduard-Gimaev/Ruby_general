@@ -18,7 +18,6 @@ module InstanceCounter
   end
   
   module ClassMethods
-    #attr_reader :instances
     
     def instances
       puts @instances ||= 0
@@ -40,11 +39,10 @@ end
 
 module Validatior
   NUMBER_FORMAT = /^\w{3}-*\w{2}$/
-  
+
   def valid?
     validate!
   rescue
     false
   end
-
 end

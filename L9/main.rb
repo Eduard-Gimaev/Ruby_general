@@ -98,8 +98,6 @@ def create_train
   rescue => e 
     puts e 
   end 
-
-  
   @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} produced by #{train.show_manufacturer}" }
 end
 
@@ -115,11 +113,31 @@ end
 
 #"4. Create wagon"
 def create_wagon
-  @wagons << WagonCargo.new
-  @wagons << WagonPassanger.new
-  @wagons[0].set_manufacturer("WagoCargo")
-  @wagons[1].set_manufacturer("WagoPas")
-  @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer} " }
+  begin
+    puts "Set manufacturer:"
+    manufacturer = gets.chomp
+    puts "`Enter the type of the wagon: cargo or passanger?"
+    type = gets.chomp.capitalize
+    if type == "Cargo"
+      puts "`Enter the capacity for this wagon:"
+      capacity = gets.chomp.capitalize
+      @wagons << WagonCargo.new(capacity)
+      @wagons[-1].set_manufacturer(manufacturer)
+      puts "The \"#{type}\" -  \"#{capacity}\" wagon has been created by \"#{manufacturer}\" "
+    elsif
+      type == "Passanger"
+      puts "`Enter the number of seats for this wagon:"
+      seats = gets.chomp.capitalize
+      @wagons << WagonPassanger.new(seats)
+      @wagons[-1].set_manufacturer(manufacturer)
+      puts "The \"#{type}\" -  \"#{seats}\" wagon has been created by \"#{manufacturer}\" "
+    else
+      puts "Enter a correct type of the wagon"
+    end
+  rescue => e 
+    puts e 
+  end 
+  @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} produced by #{wagon.show_manufacturer}" }
 end
 
 #"5. Filling the route with stations"

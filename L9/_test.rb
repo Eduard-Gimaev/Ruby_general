@@ -56,13 +56,25 @@ puts "#3. Create a route"
     @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
     puts ""
 puts "#4. Create wagon"
-    @wagons << WagonCargo.new
-    @wagons << WagonPassanger.new
+    @wagons << WagonCargo.new(100)
+    @wagons << WagonPassanger.new(12)
     @wagons[0].set_manufacturer("WagoCargo")
     @wagons[1].set_manufacturer("WagoPas")
-    puts "Wagons:"
-    @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer} " }
-    puts ""
+    @wagons[-1].occupy_seat
+    @wagons[-1].occupy_seat
+    @wagons[-1].occupy_seat
+    @wagons[-2].fill_capacity(40)
+
+    puts "Wagons:" 
+    @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer}" }
+    print "seats available:"
+    puts "#{@wagons[-1].available_seats}"
+    print "seats occupied:"
+    puts "#{@wagons[-1].occupied_seats}"
+    print "capacity_filled:"
+    puts "#{@wagons[-2].filled_capacity}"
+    print "capacity_available:"
+    puts "#{@wagons[-2].available_capacity}"
 
 puts "#5. Filling the route with stations"
     @routes[0].add_station(@stations[1])
@@ -176,6 +188,18 @@ puts "#TrainCargo"
 TrainCargo.instances
 puts "#TrainPassanger"
 TrainPassanger.instances
+
+#@stations[1].all_trains
+#@stations[0].all_trains
+#@stations[2].all_trains
+#@stations[3].all_trains
+
+@trains[0].all_wagons
+@trains[1].all_wagons
+@trains[2].all_wagons
+@trains[3].all_wagons
+
+
 
 
 
