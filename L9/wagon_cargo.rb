@@ -1,5 +1,6 @@
 class WagonCargo < Wagon
-  def initialize(capacity)
+  def initialize(number, capacity)
+    @number = number
     @capacity = capacity
     @free_capacity = capacity
     @type = :cargo
@@ -20,5 +21,4 @@ class WagonCargo < Wagon
   def available_capacity
     @free_capacity
   end
-
 end

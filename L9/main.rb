@@ -40,7 +40,8 @@ class RailRoadOperator
     puts "9. Unhook wagons form the train"
     puts "10. Move the train forward or back along the route"
     puts "11. View trains on stations"
-    puts "12. Close menu"
+    puts "12. View stations on stations"
+    puts "13. Close menu"
   end
     
   def run(command)
@@ -56,7 +57,8 @@ class RailRoadOperator
     when 9 then unhook_wagons
     when 10 then train_move
     when 11 then show_trains_on_stations
-    when 12 then exit
+    when 12 then show_wagons_at_trains
+    when 13 then exit
     else
       puts "there is no such command, try again"
     end
@@ -118,19 +120,21 @@ def create_wagon
     manufacturer = gets.chomp
     puts "`Enter the type of the wagon: cargo or passanger?"
     type = gets.chomp.capitalize
+    puts "Enter the number of the wagon:"
+    number = gets.chomp
     if type == "Cargo"
       puts "`Enter the capacity for this wagon:"
       capacity = gets.chomp.capitalize
-      @wagons << WagonCargo.new(capacity)
+      @wagons << WagonCargo.new(number, capacity)
       @wagons[-1].set_manufacturer(manufacturer)
-      puts "The \"#{type}\" -  \"#{capacity}\" wagon has been created by \"#{manufacturer}\" "
+      puts "The \"#{type}\"(\"#{capacity}\") wagon has been created by \"#{manufacturer}\" "
     elsif
       type == "Passanger"
       puts "`Enter the number of seats for this wagon:"
       seats = gets.chomp.capitalize
-      @wagons << WagonPassanger.new(seats)
+      @wagons << WagonPassanger.new(number, seats)
       @wagons[-1].set_manufacturer(manufacturer)
-      puts "The \"#{type}\" -  \"#{seats}\" wagon has been created by \"#{manufacturer}\" "
+      puts "The \"#{type}\"(\"#{seats}\") wagon has been created by \"#{manufacturer}\" "
     else
       puts "Enter a correct type of the wagon"
     end
@@ -204,25 +208,49 @@ end
 
 #"11. View trains on stations"
 def show_trains_on_stations
-  # why station.display_trains_on_station => array @train is empty??
-  @stations.each_with_index do|station, index| puts "#{station.name}:"
-    station.trains.select do|train|
-      print " #{train.number} - #{train.type};"
+  #via Proc
+  @stations.each_with_index do|station, index| puts "#{index}. #{station.name}:"
+    station.all_trains{|train| print " #{train.number} - #{train.type};"}
+    puts""
+  end
+end
+
+#via just loop
+#@stations.each_with_index do|station, index| puts "#{index}. #{station.name}:"
+    #station.trains.select do|train|
+    #print " #{train.number} - #{train.type};"
+    #puts""
+    #end
+#end
+
+#"12. show wagons at trains"
+def show_wagons_at_trains
+  @trains.each_with_index do|train, index| puts "#{train.type.capitalize} train(#{train.number}) has wagon(s):"
+    train.all_wagons do |wagon| print "#{wagon.type.capitalize} wagon(#{wagon.number}); "
+      if wagon.type.capitalize == "Cargo"
+          print "#{wagon.type.capitalize} - #{wagon.capacity} "
+        elsif
+         wagon.type.capitalize == "Passanger"
+          print "#{wagon.type.capitalize} - #{wagon.seats} "
+        else
+         puts "There is no any wagon at train"
+        end
     end
+    puts""
   end
 end
 
 # Complementary functions for internal processes
 def train_select
-  puts "This is the list of the trains:"
-  @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number}" }
+  puts "Select a train:"
+  @trains.each_with_index {|val, index| puts "#{index + 1}. #{val.number}-#{val.type}" }
   puts "Enter one of the #{@trains.length} train(s):"
   num = gets.chomp.to_i
   train = @trains[num - 1]
 end
 
 def station_select
-  puts "This is the list of the stations:"
+  puts "Select a station:"
   @stations.each_with_index {|val, index| puts "#{index + 1}. #{val.name}" }
   puts "Enter the number of the station from the list above:"
   num = gets.chomp.to_i
@@ -230,7 +258,7 @@ def station_select
 end
 
 def route_select
-  puts "This is the list of the routes:"
+  puts "Select a route:"
   @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
   puts "Enter number of the route:"
   num = gets.chomp.to_i
@@ -238,8 +266,8 @@ def route_select
 end
 
 def wagon_select
-  puts "Enter the number of the type:"
-  @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type}" }
+  puts "Select a wagon:"
+  @wagons.each_with_index {|val, index| puts "#{index + 1}.#{val.number}-#{val.type}" }
   num = gets.chomp.to_i
   wagon = @wagons[num - 1]
 end

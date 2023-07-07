@@ -44,7 +44,6 @@ puts "#2. Create a train"
     puts "Test for @trains[1].Valid?: #{@trains[1].valid?}"
     puts "Test for @trains[2].Valid?: #{@trains[2].valid?}"
     puts "Test for @trains[3].Valid?: #{@trains[3].valid?}"
-
     puts "Trains:"
     @trains.each_with_index {|train, index| puts "#{index + 1}. #{train.number} - #{train.type} this train produced by #{train.show_manufacturer}" }
     puts "Find"
@@ -56,15 +55,14 @@ puts "#3. Create a route"
     @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
     puts ""
 puts "#4. Create wagon"
-    @wagons << WagonCargo.new(100)
-    @wagons << WagonPassanger.new(12)
+    @wagons << WagonCargo.new("001-C", 100)
+    @wagons << WagonPassanger.new("002-P", 12)
     @wagons[0].set_manufacturer("WagoCargo")
     @wagons[1].set_manufacturer("WagoPas")
     @wagons[-1].occupy_seat
     @wagons[-1].occupy_seat
     @wagons[-1].occupy_seat
     @wagons[-2].fill_capacity(40)
-
     puts "Wagons:" 
     @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer}" }
     print "seats available:"
@@ -106,7 +104,13 @@ puts "#8. Hook wagon to the train"
 #Cargo
     @trains[0].hook_wagons(@wagons[0])
     @trains[1].hook_wagons(@wagons[0])
+    @trains[0].hook_wagons(@wagons[0])
+    @trains[1].hook_wagons(@wagons[0])
 #Passanger
+    @trains[2].hook_wagons(@wagons[1])
+    @trains[3].hook_wagons(@wagons[1])
+    @trains[2].hook_wagons(@wagons[1])
+    @trains[3].hook_wagons(@wagons[1])
     @trains[2].hook_wagons(@wagons[1])
     @trains[3].hook_wagons(@wagons[1])
     @trains[0].show_wagons
@@ -171,14 +175,34 @@ puts "#10. Move the train"
     @trains[2].show_current_station
     @trains[3].show_current_station
     puts ""
-puts "11. View trains on stations"
-    @stations.each_with_index do|station, index| puts "#{station.name}:"
-        station.trains.select do|train|
-        print " #{train.number} - #{train.type};"
+puts "#11. View trains on stations"
+    #via Proc
+    @stations.each_with_index do|station, index| puts "#{index + 1}. #{station.name}:"
+        station.all_trains{|train| print "#{train.type.capitalize} train(#{train.number}) has #{train.wagons.length} wagon(s) ;"}
         puts""
-        end
     end
+
+    #via just loop
+    #@stations.each_with_index do|station, index| puts "#{index}. #{station.name}:"
+        #station.trains.select do|train|
+        #print " #{train.number} - #{train.type};"
+        #puts""
+        #end
+    #end
 puts ""
+puts "#12. View wagons_at_trains"
+@trains.each_with_index do|train, index| puts "#{train.type.capitalize} train(#{train.number}) has wagon(s):"
+  train.all_wagons do |wagon| puts "#{wagon.type.capitalize}"
+    if wagon.type.capitalize == "Cargo"
+      print "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.capacity} capacity"
+    elsif
+      wagon.type.capitalize == "Passanger"
+      print "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.seats} seats"
+    end
+  end
+    puts""
+end
+puts""
 puts "INSTATNCES"
 puts "#Station"
 Station.instances 
@@ -189,15 +213,6 @@ TrainCargo.instances
 puts "#TrainPassanger"
 TrainPassanger.instances
 
-#@stations[1].all_trains
-#@stations[0].all_trains
-#@stations[2].all_trains
-#@stations[3].all_trains
-
-@trains[0].all_wagons
-@trains[1].all_wagons
-@trains[2].all_wagons
-@trains[3].all_wagons
 
 
 
