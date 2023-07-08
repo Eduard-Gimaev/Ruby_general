@@ -1,4 +1,5 @@
 class WagonCargo < Wagon
+  attr_reader :capacity, :free_capacity
   def initialize(number, capacity)
     @number = number
     @capacity = capacity

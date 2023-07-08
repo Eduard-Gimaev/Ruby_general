@@ -1,3 +1,4 @@
+require "pry"
 require_relative "modules"
 require_relative "main"
 require_relative "route"
@@ -192,12 +193,15 @@ puts "#11. View trains on stations"
 puts ""
 puts "#12. View wagons_at_trains"
 @trains.each_with_index do|train, index| puts "#{train.type.capitalize} train(#{train.number}) has wagon(s):"
-  train.all_wagons do |wagon| puts "#{wagon.type.capitalize}"
-    if wagon.type.capitalize == "Cargo"
-      print "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.capacity} capacity"
+  train.all_wagons do |wagon|
+    #binding.pry
+    if wagon.type == :cargo
+      puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.free_capacity}/#{wagon.capacity} capacity"
     elsif
-      wagon.type.capitalize == "Passanger"
-      print "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.seats} seats"
+      wagon.type == :passanger
+      puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.available_seats}/#{wagon.seats} seats"
+    else
+        puts "There is no any wagon at train"
     end
   end
     puts""
