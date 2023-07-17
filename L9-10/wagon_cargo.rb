@@ -1,25 +1,14 @@
 class WagonCargo < Wagon
-  attr_reader :capacity, :free_capacity
-  def initialize(number, capacity)
-    @number = number
-    @capacity = capacity
-    @free_capacity = capacity
+  def initialize(number, total_place)
     @type = :cargo
+    super
   end
 
-  def fill_capacity(volume)
-    if @free_capacity >= volume
-      @free_capacity -= volume
+  def take_place(volume)
+    if @free_place >= volume
+      @used_place += volume
     else
-      fail "it's too much available capacity is #{@free_capacity}"
+      fail "it's too much available capacity is #{@free_place}"
     end
-  end
-
-  def filled_capacity
-    @capacity - @free_capacity
-  end
-
-  def available_capacity
-    @free_capacity
   end
 end

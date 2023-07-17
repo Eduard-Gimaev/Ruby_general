@@ -56,24 +56,24 @@ puts "#3. Create a route"
     @routes.each_with_index {|val, index| puts "#{index + 1}. #{val.stations[0].name} - #{val.stations[-1].name}" }
     puts ""
 puts "#4. Create wagon"
-    @wagons << WagonCargo.new("001-C", 100)
-    @wagons << WagonPassanger.new("002-P", 12)
+    @wagons << WagonCargo.new("WC1",100)
+    @wagons << WagonPassanger.new("WP1",12)
     @wagons[0].set_manufacturer("WagoCargo")
     @wagons[1].set_manufacturer("WagoPas")
-    @wagons[-1].occupy_seat
-    @wagons[-1].occupy_seat
-    @wagons[-1].occupy_seat
-    @wagons[-2].fill_capacity(40)
+    @wagons[-1].take_place
+    @wagons[-1].take_place
+    @wagons[-1].take_place
+    @wagons[-2].take_place(40)
     puts "Wagons:" 
-    @wagons.each_with_index {|wagon, index| puts "#{index + 1}.#{wagon.type} this wagon produced by #{wagon.show_manufacturer}" }
+    @wagons.each_with_index {|wagon, index| puts "#{index + 1}) #{wagon.number}.#{wagon.type} wagon produced by #{wagon.show_manufacturer}" }
     print "seats available:"
-    puts "#{@wagons[-1].available_seats}"
+    puts "#{@wagons[-1].free_place}"
     print "seats occupied:"
-    puts "#{@wagons[-1].occupied_seats}"
+    puts "#{@wagons[-1].used_place}"
     print "capacity_filled:"
-    puts "#{@wagons[-2].filled_capacity}"
+    puts "#{@wagons[-2].used_place}"
     print "capacity_available:"
-    puts "#{@wagons[-2].available_capacity}"
+    puts "#{@wagons[-2].free_place}"
 
 puts "#5. Filling the route with stations"
     @routes[0].add_station(@stations[1])
@@ -196,10 +196,10 @@ puts "#12. View wagons_at_trains"
   train.all_wagons do |wagon|
     #binding.pry
     if wagon.type == :cargo
-      puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.free_capacity}/#{wagon.capacity} capacity"
+      puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.free_place}/#{wagon.total_place} capacity"
     elsif
       wagon.type == :passanger
-      puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.available_seats}/#{wagon.seats} seats"
+      puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.free_place}/#{wagon.total_place} seats"
     else
         puts "There is no any wagon at train"
     end

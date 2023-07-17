@@ -124,17 +124,17 @@ def create_wagon
     number = gets.chomp
     if type == "Cargo"
       puts "`Enter the capacity for this wagon:"
-      capacity = gets.chomp.capitalize
-      @wagons << WagonCargo.new(number, capacity)
+      total_place = gets.chomp.capitalize
+      @wagons << WagonCargo.new(number, total_place)
       @wagons[-1].set_manufacturer(manufacturer)
-      puts "The \"#{type}\"(\"#{capacity}\") wagon has been created by \"#{manufacturer}\" "
+      puts "The \"#{type}\"(\"#{total_place}\") wagon has been created by \"#{manufacturer}\" "
     elsif
       type == "Passanger"
       puts "`Enter the number of seats for this wagon:"
-      seats = gets.chomp.capitalize
-      @wagons << WagonPassanger.new(number, seats)
+      total_place = gets.chomp.capitalize
+      @wagons << WagonPassanger.new(number, total_place)
       @wagons[-1].set_manufacturer(manufacturer)
-      puts "The \"#{type}\"(\"#{seats}\") wagon has been created by \"#{manufacturer}\" "
+      puts "The \"#{type}\"(\"#{total_place}\") wagon has been created by \"#{manufacturer}\" "
     else
       puts "Enter a correct type of the wagon"
     end
