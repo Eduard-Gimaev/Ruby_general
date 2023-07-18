@@ -10,6 +10,13 @@ require_relative "wagon_passanger"
 
 
 class RailRoadOperator
+  COMMAND = {
+    1 => "create_station", 2 => "create_train", 3 => "create_route", 4 => "create_wagon", 
+    5 => "add_station_to_route", 6 => "delete_station_from_route", 7 => "set_route",
+    8 => "hook_wagons", 9 => "unhook_wagons", 10 => "train_move", 
+    11 => "show_trains_on_stations", 12 => "show_wagons_at_trains", 13 => "exit"
+  }
+  
   def initialize
     @stations = []
     @trains = []
@@ -43,8 +50,17 @@ class RailRoadOperator
     puts "12. View stations on stations"
     puts "13. Close menu"
   end
-    
+
   def run(command)
+    begin
+    @run = COMMAND[command] || "there is no such command, try again"
+    rescue => e
+      puts e
+    end
+  end
+end
+
+=begin
     case command
     when 1 then create_station
     when 2 then create_train
@@ -64,6 +80,7 @@ class RailRoadOperator
     end
   end
 end
+=end
 
 #"1. Create a station"
 def create_station
