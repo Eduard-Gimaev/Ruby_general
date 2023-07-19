@@ -1,27 +1,32 @@
+# frozen_string_literal: true
+
 class Train
-  include Manufacturer, InstanceCounter, Validatior
-  
+  include Validatior
+  include InstanceCounter
+  include Manufacturer
+
   attr_reader :number, :type, :wagons
+
   @@trains = []
 
-  def initialize(number)  
+  def initialize(number)
     @number = number
     @speed = 0
     @wagons = []
-   # wagons.times { initialize_wagons(volume) }
     validate!
     @@trains << self
     register_instance
   end
 
   def validate!
-    raise ArgumentError, "Number is too short" unless self.number.length > 4
-    raise ArgumentError, "Incorrect format of the number" unless self.number =~ NUMBER_FORMAT
+    raise ArgumentError, 'Number is too short' unless number.length > 4
+    raise ArgumentError, 'Incorrect format of the number' unless number =~ NUMBER_FORMAT
+
     true
   end
 
   def self.find(number)
-    @@trains.each_with_index {|train, index| puts "#{index + 1}. #{train}" if train.number == number}
+    @@trains.each_with_index { |train, index| puts "#{index + 1}. #{train}" if train.number == number }
   end
 
   def go
@@ -37,7 +42,7 @@ class Train
   end
 
   def speed_down
-    @speed -= 10 if @speed > 0
+    @speed -= 10 if @speed.positive?
   end
 
   def stop
@@ -45,7 +50,7 @@ class Train
   end
 
   def hook_wagons(wagon)
-    @wagons.insert(-1, wagon) if @speed == 0 && wagon.type == type
+    @wagons.insert(-1, wagon) if @speed.zero? && wagon.type == type
   end
 
   def unhook_wagons
@@ -53,7 +58,7 @@ class Train
   end
 
   def show_wagons
-    puts "The #{self.type} train number: #{self.number} has #{@wagons.length} wagon(s)"
+    puts "The #{type} train number: #{number} has #{@wagons.length} wagon(s)"
   end
 
   def set_route(route)
@@ -70,16 +75,16 @@ class Train
   end
 
   def show_train_route
-    puts "Train route:" 
-    @route.stations.each_with_index {|station, index| print "#{index + 1} - #{station.name}; "}
+    puts 'Train route:'
+    @route.stations.each_with_index { |station, index| print "#{index + 1} - #{station.name}; " }
   end
 
   def move_forward
-      @current_station_index += 1 if next_station
+    @current_station_index += 1 if next_station
   end
 
   def move_back
-      @current_station_index -= 1 if previous_station
+    @current_station_index -= 1 if previous_station
   end
 
   def next_station
@@ -91,8 +96,6 @@ class Train
   end
 
   def all_wagons(&_block)
-    @wagons.each do |wagon|
-      yield(wagon)
-    end
+    @wagons.each(&_block)
   end
 end

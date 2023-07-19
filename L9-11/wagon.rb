@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Wagon
   include Manufacturer
   attr_reader :type, :number, :total_place, :used_place
@@ -14,6 +16,6 @@ class Wagon
   end
 
   def take_place
-    raise "should be implemented in subclasses"
+    raise 'should be implemented in subclasses'
   end
 end

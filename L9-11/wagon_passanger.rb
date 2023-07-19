@@ -5,10 +5,7 @@ class WagonPassanger < Wagon
   end
 
   def take_place
-    if @free_place > 0
-      @used_place += 1
-    else
-      fail "Sorry, there are no an available seats yet"
-    end
+    raise 'Sorry, there are no an available seats yet' unless @free_place > 0
+    @used_place += 1
   end
 end

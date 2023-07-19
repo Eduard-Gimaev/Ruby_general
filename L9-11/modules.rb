@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Manufacturer
   attr_accessor :manufacturer
 
@@ -6,7 +8,7 @@ module Manufacturer
   end
 
   def show_manufacturer
-    self.manufacturer
+    manufacturer
   end
 end
 
@@ -14,14 +16,12 @@ module InstanceCounter
   def self.included(base)
     base.extend ClassMethods
     base.include InstanceMethods
-    
   end
-  
+
   module ClassMethods
-    
     def instances
       puts @instances ||= 0
-    end 
+    end
 
     def instances_count
       @instances ||= 0
@@ -31,6 +31,7 @@ module InstanceCounter
 
   module InstanceMethods
     protected
+
     def register_instance
       self.class.instances_count
     end
@@ -42,7 +43,7 @@ module Validatior
 
   def valid?
     validate!
-  rescue
+  rescue StandardError
     false
   end
 end

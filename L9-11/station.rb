@@ -1,0 +1,45 @@
+# frozen_string_literal: true
+
+class Station
+  include Validatior
+  include InstanceCounter
+  attr_reader :name
+
+  @@stations = []
+
+  def self.all
+    @@stations.each_with_index { |val, index| puts "#{index + 1}. #{val.name}" }
+  end
+
+  def initialize(name)
+    @name = name.to_s.capitalize
+    @trains = []
+    validate!
+    @@stations << self
+    register_instance
+  end
+
+  def validate!
+    raise ArgumentError, 'Name is too short' unless name.length > 2
+
+    true
+  end
+
+  def train_arrival(train)
+    @trains << train
+  end
+
+  def departure(train)
+    @trains.delete(train)
+  end
+
+  def display_trains_on_station
+    @trains.each_with_index do |train, index|
+      puts "#{index + 1}. train: number - #{train.number}; type - #{train.type}"
+    end
+  end
+
+  def all_trains(&_block)
+    @trains.each(&_block)
+  end
+end
