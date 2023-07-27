@@ -38,10 +38,10 @@ puts '#2. Create a train'
 @trains << TrainCargo.new('CCC-02')
 @trains << TrainPassanger.new('003PP')
 @trains << TrainPassanger.new('004-PP')
-@trains[0].set_manufacturer('T-Cargo')
-@trains[1].set_manufacturer('T-Cargo')
-@trains[2].set_manufacturer('T-Pas')
-@trains[3].set_manufacturer('T-Pas')
+@trains[0].assign_manufacturer('T-Cargo')
+@trains[1].assign_manufacturer('T-Cargo')
+@trains[2].assign_manufacturer('T-Pas')
+@trains[3].assign_manufacturer('T-Pas')
 puts "Test for @trains[0].Valid?: #{@trains[0].valid?}"
 puts "Test for @trains[1].Valid?: #{@trains[1].valid?}"
 puts "Test for @trains[2].Valid?: #{@trains[2].valid?}"
@@ -61,8 +61,8 @@ puts ''
 puts '#4. Create wagon'
 @wagons << WagonCargo.new('WC1', 100)
 @wagons << WagonPassanger.new('WP1', 12)
-@wagons[0].set_manufacturer('WagoCargo')
-@wagons[1].set_manufacturer('WagoPas')
+@wagons[0].assign_manufacturer('WagoCargo')
+@wagons[1].assign_manufacturer('WagoPas')
 @wagons[-1].take_place
 @wagons[-1].take_place
 @wagons[-1].take_place
@@ -96,10 +96,10 @@ puts '#6. Delete stations from the route'
 @routes[0].show_route_stations
 puts ''
 puts '#7. Set a route to the train'
-@trains[0].set_route(@routes[0])
-@trains[1].set_route(@routes[0])
-@trains[2].set_route(@routes[0])
-@trains[3].set_route(@routes[0])
+@trains[0].assign_route(@routes[0])
+@trains[1].assign_route(@routes[0])
+@trains[2].assign_route(@routes[0])
+@trains[3].assign_route(@routes[0])
 puts 'Put the particular train to the first station of the route'
 @stations[0].train_arrival(@trains[0])
 @stations[0].train_arrival(@trains[1])
@@ -203,7 +203,6 @@ puts '#12. View wagons_at_trains'
 @trains.each_with_index do |train, _index|
   puts "#{train.type.capitalize} train(#{train.number}) has wagon(s):"
   train.all_wagons do |wagon|
-    # binding.pry
     if wagon.type == :cargo
       puts "#{wagon.type.capitalize} wagon(#{wagon.number}) - #{wagon.free_place}/#{wagon.total_place} capacity"
     elsif wagon.type == :passanger

@@ -8,7 +8,6 @@ class WagonCargo < Wagon
 
   def take_place(volume)
     raise "it's too much available capacity is #{@free_place}" unless @free_place >= volume
-
     @used_place += volume
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class Station
-  include Validatior
   include InstanceCounter
+  include Validation
   attr_reader :name
 
   @@stations = []
@@ -21,7 +21,7 @@ class Station
 
   def validate!
     raise ArgumentError, 'Name is too short' unless name.length > 2
-
+    raise ArgumentError, 'Incorrect format of the number' unless name =~ RAILWAYSTATION_NAME_PATTERN
     true
   end
 
@@ -39,7 +39,7 @@ class Station
     end
   end
 
-  def all_trains(&_block)
-    @trains.each(&_block)
+  def all_trains(&block)
+    @trains.each(&block)
   end
 end

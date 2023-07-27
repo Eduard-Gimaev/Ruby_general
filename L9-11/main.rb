@@ -13,7 +13,7 @@ require_relative 'wagon_passanger'
 class RailRoadOperator
   COMMAND = {
     1 => 'create_station', 2 => 'create_train', 3 => 'create_route', 4 => 'create_wagon',
-    5 => 'add_station_to_route', 6 => 'delete_station_from_route', 7 => 'set_route',
+    5 => 'add_station_to_route', 6 => 'delete_station_from_route', 7 => 'assign_route',
     8 => 'hook_wagons', 9 => 'unhook_wagons', 10 => 'train_move',
     11 => 'show_trains_on_stations', 12 => 'show_wagons_at_trains', 13 => 'exit'
   }.freeze
@@ -33,30 +33,39 @@ class RailRoadOperator
     end
   end
 
-  private
-
+  # private
   def show_menu
-    puts '====================================='
-    puts 'Insert your command: '
-    puts '1. Create a station'
-    puts '2. Create a train'
-    puts '3. Create a route'
-    puts '4. Create a wagon'
-    puts '5. Filling the route with stations'
-    puts '6. Delete stations from the route'
-    puts '7. Set a route to the train'
-    puts '8. Hook wagon to the train'
-    puts '9. Unhook wagons form the train'
-    puts '10. Move the train forward or back along the route'
-    puts '11. View trains on stations'
-    puts '12. View stations on stations'
-    puts '13. Close menu'
+    menu_items = [
+      'Create a station', 'Create a train', 'Create a route',
+      'Create a wagon', 'Filling the route with stations',
+      'Delete stations from the route', 'assign a route to the train',
+      'Hook wagon to the train', 'Unhook wagons form the train',
+      'Move the train forward or back along the route',
+      'View trains on stations', 'View stations on stations',
+      'Close menu'
+    ]
+    menu_items.each.with_index(1) { |item, index| puts "#{index}. #{item}" }
   end
 
   def run(command)
     @run = COMMAND[command] || 'there is no such command, try again'
-  rescue StandardError => e
-    puts e
+    # case command
+    # when 1 then create_station
+    # when 2 then create_train
+    # when 3 then create_route
+    # when 4 then create_wagon
+    # when 5 then add_station_to_route
+    # when 6 then delete_station_from_route
+    # when 7 then assign_route
+    # when 8 then hook_wagons
+    # when 9 then unhook_wagons
+    # when 10 then train_move
+    # when 11 then show_trains_on_stations
+    # when 12 then show_wagons_at_trains
+    # when 13 then exit
+    # else
+    #  puts "there is no such command, try again"
+    # end
   end
 end
 
@@ -84,9 +93,9 @@ def create_train
     else
       puts 'Enter a correct type of the train'
     end
-    puts 'Set manufacturer:'
+    puts 'assign manufacturer:'
     manufacturer = gets.chomp
-    @trains[-1].set_manufacturer(manufacturer)
+    @trains[-1].assign_manufacturer(manufacturer)
   rescue StandardError => e
     puts e
   end
@@ -106,7 +115,7 @@ end
 
 def create_wagon
   begin
-    puts 'Set manufacturer:'
+    puts 'assign manufacturer:'
     manufacturer = gets.chomp
     puts 'Enter the type of the wagon: cargo or passanger?'
     type = gets.chomp.capitalize
@@ -116,13 +125,13 @@ def create_wagon
       puts 'Enter the capacity for this wagon:'
       total_place = gets.chomp.capitalize
       @wagons << WagonCargo.new(number, total_place)
-      @wagons[-1].set_manufacturer(manufacturer)
+      @wagons[-1].assign_manufacturer(manufacturer)
       puts "The \"#{type}\"(\"#{total_place}\") wagon has been created by \"#{manufacturer}\" "
     elsif type == 'Passanger'
       puts '`Enter the number of seats for this wagon:'
       total_place = gets.chomp.capitalize
       @wagons << WagonPassanger.new(number, total_place)
-      @wagons[-1].set_manufacturer(manufacturer)
+      @wagons[-1].assign_manufacturer(manufacturer)
       puts "The \"#{type}\"(\"#{total_place}\") wagon has been created by \"#{manufacturer}\" "
     else
       puts 'Enter a correct type of the wagon'
@@ -147,10 +156,10 @@ def delete_station_from_route
   route.show_route_stations
 end
 
-def set_route
+def assign_route
   train = train_select
   route = route_select
-  train.set_route(route)
+  train.assign_route(route)
   @departure_point.train_arrival(train)
   train.show_train_route
   train.show_current_station

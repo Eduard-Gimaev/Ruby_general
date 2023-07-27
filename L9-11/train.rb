@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 class Train
-  include Validatior
-  include InstanceCounter
   include Manufacturer
-
+  include Validation
+  include InstanceCounter
   attr_reader :number, :type, :wagons
 
   @@trains = []
@@ -61,7 +60,7 @@ class Train
     puts "The #{type} train number: #{number} has #{@wagons.length} wagon(s)"
   end
 
-  def set_route(route)
+  def assign_route(route)
     @route = route
     @current_station_index = 0
   end
@@ -95,7 +94,7 @@ class Train
     @route.stations[@current_station_index - 1]
   end
 
-  def all_wagons(&_block)
-    @wagons.each(&_block)
+  def all_wagons(&block)
+    @wagons.each(&block)
   end
 end
